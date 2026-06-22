@@ -1,0 +1,167 @@
+.pricing-section {
+  padding: var(--sp-120) 0;
+  background: var(--color-paper-white);
+  width: 100%;
+}
+
+.pricing-section .section-title-display { color: var(--color-carbon); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: var(--sp-64);
+  border: var(--brutalist-border);
+  box-shadow: var(--brutalist-shadow);
+  background: var(--color-paper-white);
+}
+
+.plan-card {
+  background: var(--color-paper-white) !important;
+  border: none !important;
+  border-right: var(--brutalist-border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: var(--sp-40) !important;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-12);
+  position: relative;
+  transition: background 0.25s;
+}
+.plan-card:last-child { border-right: none !important; }
+.plan-card:hover { background: var(--color-paper-white) !important; }
+
+.plan-card.plan-featured {
+  background: var(--color-accent-blue) !important;
+}
+.plan-card.plan-featured:hover { background: var(--color-accent-blue) !important; }
+
+.plan-card .corner-tag { display: none; }
+
+.featured-badge {
+  display: inline-block;
+  font-family: var(--font-roobert);
+  font-size: var(--text-label);
+  font-weight: var(--fw-semibold);
+  color: var(--color-paper-white);
+  background: var(--color-accent-pink);
+  border: 2px solid var(--color-ink-black);
+  border-radius: var(--radius-pill);
+  padding: 3px 14px;
+  margin-bottom: var(--sp-8);
+  position: static;
+  width: fit-content;
+}
+
+.plan-name {
+  font-family: var(--font-roobert);
+  font-size: var(--text-label);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+.plan-featured .plan-name { color: var(--color-paper-white); }
+
+.plan-price {
+  font-family: var(--font-roobert);
+  font-size: var(--text-head-sm);
+  font-weight: var(--fw-light);
+  line-height: 1;
+  color: var(--color-carbon);
+  letter-spacing: -0.02em;
+  -webkit-text-stroke: 0;
+}
+.plan-featured .plan-price { color: var(--color-paper-white); }
+
+.plan-desc {
+  font-family: var(--font-roobert);
+  font-size: var(--text-body);
+  font-weight: var(--fw-regular);
+  color: var(--color-ash);
+  line-height: var(--lh-body);
+}
+.plan-featured .plan-desc { color: rgba(255,255,255,0.9); }
+
+.plan-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  flex: 1;
+  padding-top: var(--sp-28);
+  border-top: var(--brutalist-border);
+  margin-top: var(--sp-8);
+}
+.plan-featured .plan-features { border-top: 2px solid rgba(255,255,255,0.3); }
+
+.plan-features li {
+  font-family: var(--font-roobert);
+  font-size: var(--text-body);
+  font-weight: var(--fw-regular);
+  color: var(--color-carbon);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-8);
+}
+.plan-featured .plan-features li { color: var(--color-paper-white); }
+
+.feat-check {
+  color: var(--color-accent-blue);
+  flex-shrink: 0;
+  font-size: 14px;
+  margin-top: 3px;
+  font-weight: bold;
+}
+.plan-featured .feat-check { color: var(--color-accent-yellow); }
+
+.plan-btn {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  margin-top: var(--sp-28);
+  font-family: var(--font-roobert);
+  font-size: var(--text-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 12px 20px;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.plan-btn.btn-ghost {
+  color: var(--color-ink-black);
+  border: 2px solid var(--color-ink-black);
+  background: var(--color-paper-white);
+  box-shadow: 4px 4px 0px var(--color-ink-black);
+}
+.plan-btn.btn-ghost:hover { 
+  background: var(--color-accent-yellow); 
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--color-ink-black);
+}
+
+.plan-featured .plan-btn.btn-chrome {
+  background: var(--color-accent-yellow);
+  color: var(--color-ink-black);
+  border: 2px solid var(--color-ink-black);
+  box-shadow: 4px 4px 0px var(--color-ink-black);
+}
+.plan-featured .plan-btn.btn-chrome:hover { 
+  opacity: 1; 
+  background: var(--color-paper-white);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--color-ink-black);
+}
+
+@media (max-width: 900px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .plan-card {
+    border-right: none !important;
+    border-bottom: var(--brutalist-border) !important;
+  }
+  .plan-card:last-child { border-bottom: none !important; }
+}

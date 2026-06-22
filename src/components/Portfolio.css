@@ -1,0 +1,95 @@
+.portfolio-section {
+  padding: var(--sp-120) 0;
+  background: var(--color-ink-black);
+  width: 100%;
+}
+
+.portfolio-section .section-title-display { color: var(--color-paper-white); }
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: var(--sp-64);
+  background: rgba(255,255,255,0.05);
+}
+
+.portfolio-card {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  height: 300px;
+  background: var(--color-carbon) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s;
+}
+.portfolio-card:hover { background: #1e1e1e !important; transform: none !important; }
+
+.portfolio-card .corner-tag { display: none; }
+
+.card-accent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 2px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.portfolio-card:hover .card-accent { width: 100%; }
+
+.card-body {
+  padding: var(--sp-40);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  flex: 1;
+}
+
+.card-type {
+  font-family: var(--font-roobert);
+  font-size: var(--text-label);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.card-name {
+  font-family: var(--font-roobert);
+  font-size: var(--text-subhead);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-sub);
+  color: var(--color-paper-white);
+  letter-spacing: -0.01em;
+}
+
+.card-stack {
+  font-family: var(--font-roobert);
+  font-size: var(--text-label);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0.04em;
+  color: var(--color-ash);
+  margin-top: auto;
+}
+
+.card-hover-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: var(--sp-28) var(--sp-40);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-family: var(--font-roobert);
+  font-size: var(--text-caption);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0.06em;
+  color: var(--color-paper-white);
+  text-transform: uppercase;
+}
+.portfolio-card:hover .card-hover-overlay { opacity: 1; }
+
+@media (max-width: 900px) { .portfolio-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 580px) { .portfolio-grid { grid-template-columns: 1fr; } }
