@@ -7,6 +7,7 @@ import Pricing from './components/Pricing';
 import Portfolio from './components/Portfolio';
 import Footer from './components/Footer';
 import EstimatorModal from './components/EstimatorModal';
+import CustomCursor from './components/CustomCursor';
 
 const MARQUEE_ITEMS = [
   'Custom Web Development', 'Motion UI', 'React & Vite',
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       <Navbar onOpenEstimator={() => setIsEstimatorOpen(true)} />
       <main>
         <Hero onOpenEstimator={() => setIsEstimatorOpen(true)} />
