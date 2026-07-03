@@ -5,19 +5,19 @@ import './Pricing.css';
 
 const plans = [
   {
-    id: 'Starter', price: '₹12,500',
+    id: 'Starter', price: '₹9,999',
     desc: 'Clean creator portfolios, static landing pages, and micro builders.',
     features: ['1–3 Page Layout', 'Responsive Code', 'Technical SEO', '1 Feedback Round', 'Ready in 3 Days'],
     cta: 'Get started', featured: false,
   },
   {
-    id: 'Creator', price: '₹29,000',
+    id: 'Creator', price: '₹19,999',
     desc: 'Animated, interactive, high-impact custom sites for growing businesses.',
     features: ['Up to 6 Pages', 'Motion UI Blocks', 'Advanced SEO & Meta', 'Contact Form', '3 Feedback Rounds', 'Production Deploy'],
     cta: 'Get started', featured: true,
   },
   {
-    id: 'Business', price: '₹62,500+',
+    id: 'Business', price: '₹49,999+',
     desc: 'Bespoke application setup, custom content models, or e-store integrations.',
     features: ['Unlimited Pages', 'Custom Headless CMS', 'E-Store Checkout', 'Full SEO Suite', 'Unlimited Rounds', 'Launch QA'],
     cta: 'Contact us', featured: false,

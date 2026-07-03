@@ -4,7 +4,7 @@ import Hero from './components/Hero';
 import Services from './components/Services';
 import Process from './components/Process';
 import Pricing from './components/Pricing';
-import Portfolio from './components/Portfolio';
+import About from './components/About';
 import Footer from './components/Footer';
 import EstimatorModal from './components/EstimatorModal';
 import CustomCursor from './components/CustomCursor';
@@ -35,10 +35,10 @@ function App() {
       <main>
         <Hero onOpenEstimator={() => setIsEstimatorOpen(true)} />
         <Marquee />
+        <About />
         <Services />
         <Process />
         <Pricing onOpenEstimator={() => setIsEstimatorOpen(true)} />
-        <Portfolio />
         <Footer onOpenEstimator={() => setIsEstimatorOpen(true)} />
       </main>
       <EstimatorModal isOpen={isEstimatorOpen} onClose={() => setIsEstimatorOpen(false)} />

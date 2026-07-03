@@ -28,7 +28,7 @@ const Footer = ({ onOpenEstimator }) => {
               <button className="btn-chrome" onClick={onOpenEstimator}>
                 Get an estimate
               </button>
-              <a href="mailto:hello@aakrit.studio" className="btn-ghost">
+              <a href="mailto:aakrit.works@gmail.com" className="btn-ghost">
                 Send an email
               </a>
             </motion.div>
@@ -39,11 +39,10 @@ const Footer = ({ onOpenEstimator }) => {
       <div className="footer-bar">
         <div className="container footer-bar-inner">
           <div className="footer-logo">aakrit</div>
-          <p className="footer-copy">© 2026 Aakrit Studio — All rights reserved.</p>
           <div className="footer-links">
+            <a href="#about">About</a>
             <a href="#services">Services</a>
             <a href="#pricing">Pricing</a>
-            <a href="#portfolio">Work</a>
           </div>
         </div>
       </div>

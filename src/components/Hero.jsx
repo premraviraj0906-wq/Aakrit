@@ -88,14 +88,14 @@ const Hero = ({ onOpenEstimator }) => {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}>
           <button className="btn-chrome" onClick={onOpenEstimator}>Get an estimate</button>
-          <a href="#services" className="btn-ghost">See our work</a>
+          <a href="#about" className="btn-ghost">About Us</a>
         </motion.div>
 
         <motion.div className="hero-stats"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.2 }}>
           <div className="stat">
-            <span className="stat-val">₹12,500+</span>
+            <span className="stat-val">₹9,999+</span>
             <span className="stat-key">Base rate</span>
           </div>
           <div className="stat-sep" />

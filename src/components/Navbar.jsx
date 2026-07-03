@@ -22,10 +22,10 @@ const Navbar = ({ onOpenEstimator }) => {
           <span className="logo-name">aakrit</span>
         </a>
         <ul className="nav-links">
+          <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
           <li><a href="#process">Process</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#portfolio">Work</a></li>
         </ul>
         <button className="nav-cta" onClick={onOpenEstimator}>Get a quote</button>
       </div>
