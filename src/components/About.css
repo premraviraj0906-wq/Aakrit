@@ -1,7 +1,7 @@
 .about-section {
   padding: 8rem 0;
   position: relative;
-  background-color: var(--color-bg);
+  background-color: var(--color-paper-white);
 }
 
 .about-grid {
@@ -23,8 +23,17 @@
 
 .about-desc {
   font-size: 1.125rem;
-  color: var(--color-text-dim);
+  color: var(--color-ash);
   line-height: 1.6;
   margin-top: 1.5rem;
   max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 4rem 0;
+  }
+  .about-desc {
+    font-size: 1rem;
+  }
 }

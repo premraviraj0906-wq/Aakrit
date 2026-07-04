@@ -1,0 +1,45 @@
+AAKRIT STUDIO — SEO ACTION GUIDE
+===============================
+
+Follow this step-by-step checklist to optimize and rank aakrit.online on search engines.
+
+1. SUBMIT TO GOOGLE SEARCH CONSOLE
+----------------------------------
+To ensure Google indexes your site quickly:
+- Go to Google Search Console (https://search.google.com/search-console/about)
+- Sign in with your Google account.
+- Add your property using "URL prefix": https://aakrit.online/
+- In the left-hand menu, click on "Sitemaps".
+- Under "Add a new sitemap", type: sitemap.xml
+- Click "Submit". Google will crawl and index your site over the next few days.
+
+2. REGISTER A GOOGLE BUSINESS PROFILE
+-------------------------------------
+Essential for local SEO queries (e.g. "web developer near me"):
+- Go to Google Business Profile (https://www.google.com/business/)
+- Set up a profile for "Aakrit Studio" or "Aakrit".
+- Choose categories like "Web Designer" or "Website Designer".
+- Add your contact details, service area, and link to https://aakrit.online/
+- Ask future clients to leave you 5-star reviews on Google to rank higher.
+
+3. OPTIMIZE ON-PAGE CONTENT
+---------------------------
+- Keep your page speed fast. Since we built this using React + Vite on Vercel, it is already extremely fast.
+- If you upload images in the future, compress them to WebP format before uploading to keep page loading times under 1 second.
+- Target low-competition keywords in your headings and text, such as:
+  * "Affordable custom React websites"
+  * "Portfolio developer for creators"
+  * "Bespoke frontend development studio"
+
+4. BUILD BACKLINKS (OFF-PAGE SEO)
+---------------------------------
+Backlinks are "votes of confidence" that help Google trust your site:
+- FOOTER LINKS: When you deliver a website to a client, include a small, clean attribution link in their footer:
+  "Designed and Developed by Aakrit (https://aakrit.online)"
+  This is the most powerful way for agency sites to gain authority.
+- DIRECTORIES: Add your website link to your personal profiles on LinkedIn, GitHub, Behance, Dribbble, and Twitter.
+
+5. MONITOR TRAFFIC & PERFORMANCE
+--------------------------------
+- Set up Vercel Analytics inside your Vercel project dashboard.
+- Watch Google Search Console to see which keywords people use to find your site.

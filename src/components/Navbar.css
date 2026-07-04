@@ -26,15 +26,21 @@
 .logo { display: flex; align-items: center; }
 .logo-icon, .logo-tag { display: none; }
 
-.logo-name {
-  font-family: var(--font-roobert);
-  font-size: 18px;
-  font-weight: var(--fw-regular);
-  letter-spacing: 0.03em;
+.logo-svg {
+  height: 24px;
+  width: auto;
   color: var(--color-paper-white);
-  transition: color 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: opacity 0.3s, transform 0.3s, color 0.3s;
 }
-.navbar.scrolled .logo-name { color: var(--color-carbon); }
+.navbar.scrolled .logo-svg {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  color: var(--color-carbon);
+}
 
 .nav-links {
   display: flex;

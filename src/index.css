@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;1,300&family=Raleway:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,800;1,300&family=Raleway:wght@400&display=swap');
 
 :root {
   --color-paper-white: #ffffff;
@@ -35,7 +35,7 @@
   --text-head: 54px;
   --text-head-lg: 78px;
   --text-display: 94px;
-  --text-hero: clamp(72px, 13vw, 225px);
+  --text-hero: clamp(48px, 13vw, 225px);
 
   --lh-tight: 0.76;
   --lh-display: 1.1;
@@ -107,6 +107,11 @@ input, textarea { font-family: inherit; }
   font-weight: var(--fw-light);
   line-height: var(--lh-head);
   letter-spacing: -0.02em;
+}
+@media (max-width: 768px) {
+  .section-title-display {
+    font-size: clamp(32px, 8vw, 48px);
+  }
 }
 
 ::-webkit-scrollbar { width: 4px; }

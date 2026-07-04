@@ -10,6 +10,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin-top: var(--sp-64);
+  margin-right: 6px;
+  margin-bottom: 6px;
   border: var(--brutalist-border);
   box-shadow: var(--brutalist-shadow);
   background: var(--color-paper-white);

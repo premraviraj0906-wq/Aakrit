@@ -13,6 +13,8 @@
 .process-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  margin-right: 6px;
+  margin-bottom: 6px;
   border: var(--brutalist-border);
   box-shadow: var(--brutalist-shadow);
   background: var(--color-paper-white);
