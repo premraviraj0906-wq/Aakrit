@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import './Pricing.css';
+import Tooltip from './Tooltip';
 
 const plans = [
   {
@@ -246,9 +247,11 @@ const PricingCard = ({ plan, isBundled, isFeatured, onOpenEstimator }) => {
           })}
         </ul>
         
-        <button className={`plan-btn ${isFeatured ? 'btn-chrome' : 'btn-ghost'}`} onClick={onOpenEstimator}>
-          {plan.cta}
-        </button>
+        <Tooltip text={`Start ${plan.id} plan`} position="top">
+          <button className={`plan-btn ${isFeatured ? 'btn-chrome' : 'btn-ghost'}`} onClick={onOpenEstimator}>
+            {plan.cta}
+          </button>
+        </Tooltip>
       </div>
     </motion.div>
   );
@@ -283,18 +286,22 @@ const Pricing = ({ onOpenEstimator }) => {
             </div>
             
             <div className="pricing-toggle-container">
-              <button 
-                className={`pricing-toggle-btn ${!isBundled ? 'active' : ''}`}
-                onClick={() => setIsBundled(false)}
-              >
-                Standard Web
-              </button>
-              <button 
-                className={`pricing-toggle-btn ${isBundled ? 'active' : ''}`}
-                onClick={() => setIsBundled(true)}
-              >
-                + Branding Bundle
-              </button>
+              <Tooltip text="Switch to website only" position="top">
+                <button 
+                  className={`pricing-toggle-btn ${!isBundled ? 'active' : ''}`}
+                  onClick={() => setIsBundled(false)}
+                >
+                  Standard Web
+                </button>
+              </Tooltip>
+              <Tooltip text="Include full branding kit" position="top">
+                <button 
+                  className={`pricing-toggle-btn ${isBundled ? 'active' : ''}`}
+                  onClick={() => setIsBundled(true)}
+                >
+                  + Branding Bundle
+                </button>
+              </Tooltip>
               <span className="pricing-toggle-badge">Save ₹2,500!</span>
             </div>
           </motion.div>
@@ -308,22 +315,24 @@ const Pricing = ({ onOpenEstimator }) => {
               </div>
             </div>
             
-            <div className="slider-wrapper">
-              <input 
-                type="range" 
-                min="1" 
-                max="20" 
-                value={pageCount} 
-                onChange={(e) => setPageCount(parseInt(e.target.value))}
-                className="brutalist-slider"
-              />
+            <Tooltip text="Drag to estimate project scope" position="top">
+              <div className="slider-wrapper">
+                <input 
+                  type="range" 
+                  min="1" 
+                  max="20" 
+                  value={pageCount} 
+                  onChange={(e) => setPageCount(parseInt(e.target.value))}
+                  className="brutalist-slider"
+                />
               <div className="slider-ticks">
                 <span className={pageCount <= 3 ? 'tick-active' : ''} onClick={() => setPageCount(3)}>1-3 pgs (Launch)</span>
                 <span className={(pageCount > 3 && pageCount <= 6) ? 'tick-active' : ''} onClick={() => setPageCount(5)}>4-6 pgs (Growth)</span>
                 <span className={(pageCount > 6 && pageCount <= 12) ? 'tick-active' : ''} onClick={() => setPageCount(10)}>7-12 pgs (Scale)</span>
                 <span className={pageCount > 12 ? 'tick-active' : ''} onClick={() => setPageCount(18)}>13+ pgs (Enterprise)</span>
               </div>
-            </div>
+              </div>
+            </Tooltip>
             
             <div className="recommendation-message">
               Based on your page scope, we recommend the <span className="recommend-highlight">{recommendedPlanId}</span> Plan.

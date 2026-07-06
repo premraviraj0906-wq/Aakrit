@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import './Hero.css';
+import Tooltip from './Tooltip';
 
 const AnimatedNumber = ({ value, duration = 1200, prefix = '', suffix = '' }) => {
   const [count, setCount] = React.useState(0);
@@ -120,8 +121,12 @@ const Hero = ({ onOpenEstimator }) => {
         <motion.div className="hero-ctas"
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}>
-          <button className="btn-chrome" onClick={onOpenEstimator}>Get in touch</button>
-          <a href="#about" className="btn-ghost">About Us</a>
+          <Tooltip text="Opens project estimator" position="bottom">
+            <button className="btn-chrome" onClick={onOpenEstimator}>Get in touch</button>
+          </Tooltip>
+          <Tooltip text="Learn more about us" position="bottom">
+            <a href="#about" className="btn-ghost">About Us</a>
+          </Tooltip>
         </motion.div>
 
         <motion.div className="hero-stats"

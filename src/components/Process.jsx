@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal, fadeUp } from '../hooks/useScrollReveal';
 import './Process.css';
+import Tooltip from './Tooltip';
 
 const steps = [
   {
@@ -88,15 +89,16 @@ const Process = () => {
                 key={step.n} 
                 className={`accordion-item ${isActive ? 'is-active' : ''}`}
               >
-                <div 
-                  className="accordion-header" 
-                  onClick={() => setActiveStep(isActive ? -1 : idx)}
-                >
-                  <div className="accordion-header-left">
-                    <span className="accordion-num">{step.n}</span>
-                    <h3 className="accordion-title">{step.title}</h3>
-                  </div>
-                  <div className="accordion-header-right">
+                <Tooltip text={isActive ? "Click to collapse" : "Click to expand step"} position="top">
+                  <div 
+                    className="accordion-header" 
+                    onClick={() => setActiveStep(isActive ? -1 : idx)}
+                  >
+                    <div className="accordion-header-left">
+                      <span className="accordion-num">{step.n}</span>
+                      <h3 className="accordion-title">{step.title}</h3>
+                    </div>
+                    <div className="accordion-header-right">
                     <div className="accordion-icon">
                       {step.icon}
                     </div>
@@ -105,6 +107,7 @@ const Process = () => {
                     </div>
                   </div>
                 </div>
+                </Tooltip>
                 
                 <AnimatePresence initial={false}>
                   {isActive && (
