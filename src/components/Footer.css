@@ -58,7 +58,7 @@
 
 .cta-marquee-star {
   font-size: clamp(40px, 6vw, 80px);
-  color: var(--color-accent-green);
+  color: var(--color-accent-yellow);
   transition: color 0.3s;
 }
 
@@ -68,8 +68,13 @@
 }
 
 @keyframes marquee-huge {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .cta-hover-overlay {
@@ -215,7 +220,7 @@
 .footer-bar {
   padding: var(--sp-28) 0;
   background: var(--color-ink-black);
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .footer-bar-inner {
@@ -248,6 +253,7 @@
     grid-template-columns: 1fr 1fr;
     gap: var(--sp-40) var(--sp-20);
   }
+
   .footer-brand-col {
     grid-column: span 2;
   }
@@ -258,6 +264,7 @@
     grid-template-columns: 1fr;
     gap: var(--sp-28);
   }
+
   .footer-brand-col {
     grid-column: span 1;
   }

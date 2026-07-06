@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import emailjs from '@emailjs/browser';
 import './EstimatorModal.css';
 
 const EstimatorModal = ({ isOpen, onClose }) => {
@@ -17,38 +16,21 @@ const EstimatorModal = ({ isOpen, onClose }) => {
     setSending(true);
     setError(null);
 
-    const templateParams = {
-      from_name: name,
-      from_email: email,
-      tier: tier.toUpperCase(),
-      message: message,
-      to_email: 'aakrit.works@gmail.com'
-    };
+    setTimeout(() => {
+      const subject = encodeURIComponent(`Project Inquiry - ${name}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\n` +
+        `Email: ${email}\n` +
+        `Project Tier: ${tier.toUpperCase()}\n\n` +
+        `Message:\n${message}`
+      );
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      // Redirect to native mail client
+      window.location.href = `mailto:aakrit.works@gmail.com?subject=${subject}&body=${body}`;
 
-    // Graceful fallback for local development without active API keys
-    if (!serviceId || !templateId || !publicKey || publicKey.includes('placeholder')) {
-      console.warn("EmailJS keys are not set or contain placeholders. Simulating successful send.");
-      setTimeout(() => {
-        setSending(false);
-        setSuccess(true);
-      }, 1200);
-      return;
-    }
-
-    emailjs.send(serviceId, templateId, templateParams, publicKey)
-      .then((res) => {
-        setSending(false);
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.error("EmailJS Error: ", err);
-        setSending(false);
-        setError("Could not send email automatically. Please mail us directly at aakrit.works@gmail.com.");
-      });
+      setSending(false);
+      setSuccess(true);
+    }, 1200);
   };
 
   const reset = () => {
@@ -134,20 +116,34 @@ const EstimatorModal = ({ isOpen, onClose }) => {
                 )}
 
                 <button type="submit" className="btn-chrome full-btn" disabled={sending} style={{ marginTop: '1rem' }}>
-                  {sending ? 'Sending Message...' : 'Send Message →'}
+                  {sending ? 'Redirecting to your email service...' : 'Send Message →'}
                 </button>
               </form>
             </div>
           ) : (
             <div className="modal-step text-c">
-              <div className="success-icon" style={{ fontSize: '32px', marginBottom: '1rem' }}>✓</div>
-              <h3 className="modal-title">Sent successfully</h3>
+              <div className="success-icon" style={{ fontSize: '32px', marginBottom: '1rem' }}>✉</div>
+              <h3 className="modal-title">Redirecting to your email service...</h3>
               <p className="modal-sub">
-                Your message has been dispatched. We will contact you at <strong>{email}</strong> within 12 hours.
+                We are opening your default email application with your message pre-filled. If it doesn't open automatically, click the button below.
               </p>
-              <button className="btn-chrome full-btn" style={{ marginTop: '1.5rem' }} onClick={reset}>
-                Close Window
-              </button>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '1.5rem' }}>
+                <button className="btn-ghost full-btn" onClick={() => {
+                  const subject = encodeURIComponent(`Project Inquiry - ${name}`);
+                  const body = encodeURIComponent(
+                    `Name: ${name}\n` +
+                    `Email: ${email}\n` +
+                    `Project Tier: ${tier.toUpperCase()}\n\n` +
+                    `Message:\n${message}`
+                  );
+                  window.location.href = `mailto:aakrit.works@gmail.com?subject=${subject}&body=${body}`;
+                }}>
+                  Open Mail
+                </button>
+                <button className="btn-chrome full-btn" onClick={reset}>
+                  Close Window
+                </button>
+              </div>
             </div>
           )}
         </motion.div>

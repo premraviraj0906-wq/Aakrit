@@ -212,7 +212,8 @@
   }
 
   .accordion-icon {
-    display: none; /* Hide icon on mobile to save space */
+    display: none;
+    /* Hide icon on mobile to save space */
   }
 
   .accordion-content-inner {

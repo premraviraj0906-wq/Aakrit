@@ -16,6 +16,7 @@
   .about-section {
     padding: 2.5rem 0;
   }
+
   .manga-grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -51,39 +52,11 @@
   z-index: 1;
 }
 
-/* Comic action bubble tag */
-.manga-sfx {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: var(--color-accent-yellow);
-  color: var(--color-ink-black);
-  font-family: var(--font-roobert);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  border: 2px solid var(--color-ink-black);
-  padding: 4px 10px;
-  transform: rotate(12deg);
-  box-shadow: 2px 2px 0px var(--color-ink-black);
-  z-index: 5;
-}
-
-.manga-panel:nth-child(even) .manga-sfx {
-  background: #818cf8; /* Indigo-slate sticker */
-  color: var(--color-paper-white);
-  transform: rotate(-8deg);
-}
-
-.manga-panel:nth-child(3) .manga-sfx {
-  background: #f43f5e; /* Rose sticker */
-  color: var(--color-paper-white);
-  transform: rotate(6deg);
-}
 
 .manga-panel:nth-child(4) .manga-sfx {
-  background: #10b981; /* Sage emerald sticker */
-  color: var(--color-paper-white);
+  background: var(--color-accent-green);
+  /* System Green */
+  color: var(--color-ink-black);
   transform: rotate(-12deg);
 }
 
