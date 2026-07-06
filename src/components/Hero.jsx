@@ -2,6 +2,39 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import './Hero.css';
 
+const AnimatedNumber = ({ value, duration = 1200, prefix = '', suffix = '' }) => {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    let start = 0;
+    const end = parseInt(value, 10);
+    if (isNaN(end)) return;
+    if (start === end) {
+      setCount(end);
+      return;
+    }
+    
+    const totalMiliseconds = duration;
+    const incrementTime = Math.max(Math.floor(totalMiliseconds / end), 15);
+    
+    const timer = setInterval(() => {
+      start += Math.ceil(end / (totalMiliseconds / incrementTime));
+      if (start >= end) {
+        clearInterval(timer);
+        setCount(end);
+      } else {
+        setCount(start);
+      }
+    }, incrementTime);
+
+    return () => clearInterval(timer);
+  }, [value, duration]);
+
+  return (
+    <span>{prefix}{count.toLocaleString()}{suffix}</span>
+  );
+};
+
 const Hero = ({ onOpenEstimator }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -63,7 +96,7 @@ const Hero = ({ onOpenEstimator }) => {
         <motion.p className="hero-label"
           initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}>
-          Web Development Studio
+          Brand Scaling & Digital Suite
         </motion.p>
 
         <motion.h1 className="hero-title"
@@ -75,19 +108,19 @@ const Hero = ({ onOpenEstimator }) => {
         <motion.h2 className="hero-subtitle"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.65 }}>
-          Sites for less money
+          Premium branding & interfaces at an accessible cost
         </motion.h2>
 
         <motion.p className="hero-desc"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.85 }}>
-          No boring templates. No agency markups. Custom-engineered web experiences for creators, startups, and micro-brands.
+          We don't just build websites; we scale your entire brand identity. From custom vector logos and video assets to high-impact interfaces, we elevate brands at a fraction of typical agency rates.
         </motion.p>
 
         <motion.div className="hero-ctas"
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}>
-          <button className="btn-chrome" onClick={onOpenEstimator}>Get an estimate</button>
+          <button className="btn-chrome" onClick={onOpenEstimator}>Get in touch</button>
           <a href="#about" className="btn-ghost">About Us</a>
         </motion.div>
 
@@ -95,17 +128,17 @@ const Hero = ({ onOpenEstimator }) => {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.2 }}>
           <div className="stat">
-            <span className="stat-val">₹9,999+</span>
+            <span className="stat-val"><AnimatedNumber value="9999" prefix="₹" suffix="+" /></span>
             <span className="stat-key">Base rate</span>
           </div>
           <div className="stat-sep" />
           <div className="stat">
-            <span className="stat-val">100%</span>
+            <span className="stat-val"><AnimatedNumber value="100" suffix="%" /></span>
             <span className="stat-key">Custom built</span>
           </div>
           <div className="stat-sep" />
           <div className="stat">
-            <span className="stat-val">3 days</span>
+            <span className="stat-val"><AnimatedNumber value="3" suffix=" days" /></span>
             <span className="stat-key">Turnaround</span>
           </div>
         </motion.div>

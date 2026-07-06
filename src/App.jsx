@@ -28,6 +28,14 @@ const Marquee = () => (
 function App() {
   const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
 
+  React.useEffect(() => {
+    // Prevent browser from auto-scrolling to hash on reload
+    if (window.location.hash) {
+      window.history.replaceState(null, null, ' ');
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <CustomCursor />

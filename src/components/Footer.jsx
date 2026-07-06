@@ -8,34 +8,27 @@ const Footer = ({ onOpenEstimator }) => {
 
   return (
     <footer className="footer" id="contact">
-      <div className="cta-band texture-dots">
-        <div className="container">
-          <motion.div
-            ref={ref}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            className="cta-inner"
-          >
-            <motion.div variants={fadeUp} custom={0} className="cta-header-block">
-              <div className="status-sticker">
-                <span className="status-dot"></span>
-                <span className="status-text">Taking Projects — July 2026</span>
-              </div>
-              <h2 className="cta-title">Start your project</h2>
-              <p className="cta-sub">
-                Configure your spec in our interactive estimator, or send us a direct email. We turn ideas into fast, production-ready code.
-              </p>
-            </motion.div>
-
-            <motion.div variants={fadeUp} custom={0.2} className="cta-actions">
-              <button className="btn-brutalist-primary" onClick={onOpenEstimator}>
-                Get an Estimate →
-              </button>
-              <a href="mailto:aakrit.works@gmail.com" className="btn-brutalist-secondary">
-                Send an Email
-              </a>
-            </motion.div>
-          </motion.div>
+      <div className="cta-band texture-dots" onClick={onOpenEstimator}>
+        <div className="cta-marquee-container">
+          <div className="cta-marquee-track">
+            <span className="cta-marquee-text">START YOUR PROJECT </span>
+            <span className="cta-marquee-star">✦</span>
+            <span className="cta-marquee-text">LET'S BUILD </span>
+            <span className="cta-marquee-star">✦</span>
+            <span className="cta-marquee-text">START YOUR PROJECT </span>
+            <span className="cta-marquee-star">✦</span>
+            <span className="cta-marquee-text">LET'S BUILD </span>
+            <span className="cta-marquee-star">✦</span>
+            <span className="cta-marquee-text">START YOUR PROJECT </span>
+            <span className="cta-marquee-star">✦</span>
+            <span className="cta-marquee-text">LET'S BUILD </span>
+            <span className="cta-marquee-star">✦</span>
+          </div>
+          <div className="cta-hover-overlay">
+            <div className="cta-hover-content">
+              <span className="cta-hover-main">CLICK TO GET ESTIMATE</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -84,7 +77,7 @@ const Footer = ({ onOpenEstimator }) => {
 
       <div className="footer-bar">
         <div className="container footer-bar-inner">
-          <span className="footer-copy">© 2026 Aakrit. All rights reserved.</span>
+          <span className="footer-copy"></span>
           <span className="footer-att">Precision Web, Micro Budget.</span>
         </div>
       </div>

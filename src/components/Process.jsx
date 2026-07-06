@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollReveal, fadeUp } from '../hooks/useScrollReveal';
 import './Process.css';
 
 const steps = [
   {
     n: '01',
     title: 'Scope & Plan',
-    desc: 'We outline the architecture and estimate the budget — no hidden costs, no surprises.',
+    color: '#fdf2f8', // Pastel Rose
+    desc: 'We outline the architecture and estimate the budget — no hidden costs, no surprises. A thorough discovery phase ensures every requirement is captured before design begins.',
     tags: ['Discovery', 'Budgeting', 'Architecture'],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -18,7 +20,8 @@ const steps = [
   {
     n: '02',
     title: 'Design Draft',
-    desc: 'Wireframes and visual components built in Figma. You review, adjust, and approve.',
+    color: '#e6f4ea', // Pastel Sage
+    desc: 'Wireframes and high-fidelity visual components built in Figma. You review, adjust, and approve the look and feel before any code is written, guaranteeing perfect alignment with your brand.',
     tags: ['Figma', 'Wireframes', 'Mockups'],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -30,7 +33,8 @@ const steps = [
   {
     n: '03',
     title: 'Engineering',
-    desc: 'Pixel-perfect frontend with interactive components and smooth motion.',
+    color: '#e8f0fe', // Pastel Sky
+    desc: 'Pixel-perfect frontend development with interactive components, smooth motion, and robust backend integrations. We build for speed, accessibility, and scale.',
     tags: ['React', 'Motion', 'Frontend'],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -42,7 +46,8 @@ const steps = [
   {
     n: '04',
     title: 'System Launch',
-    desc: 'DNS setup, device testing, build optimization, and live deployment.',
+    color: '#fef3c7', // Pastel Wheat
+    desc: 'DNS setup, rigorous cross-device QA testing, build optimization, and live deployment. We ensure a flawless launch and provide priority post-launch support.',
     tags: ['Vercel', 'QA Testing', 'Deploy'],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -55,73 +60,77 @@ const steps = [
 
 const Process = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const { ref, isInView } = useScrollReveal(0.1);
 
   return (
     <section id="process" className="process-section texture-dots">
-      <div className="container">
-        <div className="process-header">
+      <div className="container" ref={ref}>
+        <motion.div 
+          className="process-header"
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          variants={fadeUp}
+        >
           <span className="section-label">02 — Workflow</span>
           <h2 className="section-title-display process-title-main">The Process</h2>
-        </div>
+        </motion.div>
 
-        <div className="process-timeline-container">
-          {/* Stepper Header */}
-          <div className="timeline-stepper">
-            {steps.map((step, idx) => {
-              const isActive = activeStep === idx;
-              return (
-                <div
-                  key={step.n}
-                  className={`timeline-step-node ${isActive ? 'is-active' : ''}`}
-                  onClick={() => setActiveStep(idx)}
+        <motion.div 
+          className="process-accordion-container"
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          variants={fadeUp}
+        >
+          {steps.map((step, idx) => {
+            const isActive = activeStep === idx;
+            return (
+              <div 
+                key={step.n} 
+                className={`accordion-item ${isActive ? 'is-active' : ''}`}
+              >
+                <div 
+                  className="accordion-header" 
+                  onClick={() => setActiveStep(isActive ? -1 : idx)}
                 >
-                  <div className="step-icon-wrapper">
-                    {step.icon}
+                  <div className="accordion-header-left">
+                    <span className="accordion-num">{step.n}</span>
+                    <h3 className="accordion-title">{step.title}</h3>
                   </div>
-                  <div className="step-title-node">
-                    {step.title}
+                  <div className="accordion-header-right">
+                    <div className="accordion-icon">
+                      {step.icon}
+                    </div>
+                    <div className="accordion-toggle-icon">
+                      {isActive ? '−' : '+'}
+                    </div>
                   </div>
-                  <div className="step-dot-connector" />
+                </div>
+                
+                <AnimatePresence initial={false}>
                   {isActive && (
                     <motion.div
-                      layoutId="activeTimelineLine"
-                      className="active-line-marker"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
+                      className="accordion-content-wrapper"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      style={{ backgroundColor: step.color }}
+                    >
+                      <div className="accordion-content-inner">
+                        <p className="accordion-desc">{step.desc}</p>
+                        <div className="accordion-tags">
+                          {step.tags.map(t => (
+                            <span key={t} className="accordion-tag">{t}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
                   )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Stepper Content Slide */}
-          <div className="timeline-slide-panel">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeStep}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className="timeline-slide-card"
-              >
-                <div className="slide-left">
-                  <span className="slide-num">{steps[activeStep].n}</span>
-                  <h3 className="slide-title">{steps[activeStep].title}</h3>
-                  <p className="slide-desc">{steps[activeStep].desc}</p>
-                </div>
-                <div className="slide-right">
-                  <span className="slide-tag-label">Workflow Tech</span>
-                  <div className="slide-tags">
-                    {steps[activeStep].tags.map(t => (
-                      <span key={t} className="slide-tag">{t}</span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );

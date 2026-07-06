@@ -4,6 +4,7 @@ import './Navbar.css';
 
 const Navbar = ({ onOpenEstimator }) => {
   const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 80);
     window.addEventListener('scroll', fn, { passive: true });
