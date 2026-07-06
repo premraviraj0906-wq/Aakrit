@@ -89,7 +89,7 @@ const Process = () => {
                 key={step.n} 
                 className={`accordion-item ${isActive ? 'is-active' : ''}`}
               >
-                <Tooltip text={isActive ? "Click to collapse" : "Click to expand step"} position="top">
+                <Tooltip text={isActive ? "Click to collapse" : "Click to expand step"} position="top" fullWidth={true}>
                   <div 
                     className="accordion-header" 
                     onClick={() => setActiveStep(isActive ? -1 : idx)}
@@ -99,14 +99,12 @@ const Process = () => {
                       <h3 className="accordion-title">{step.title}</h3>
                     </div>
                     <div className="accordion-header-right">
-                    <div className="accordion-icon">
-                      {step.icon}
-                    </div>
-                    <div className="accordion-toggle-icon">
-                      {isActive ? '−' : '+'}
+                      <div className="accordion-icon">{step.icon}</div>
+                      <div className="accordion-toggle-icon">
+                        {isActive ? '−' : '+'}
+                      </div>
                     </div>
                   </div>
-                </div>
                 </Tooltip>
                 
                 <AnimatePresence initial={false}>

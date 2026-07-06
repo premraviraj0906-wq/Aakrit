@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Tooltip.css';
 
-const Tooltip = ({ text, children, position = 'top' }) => {
+const Tooltip = ({ text, children, position = 'top', fullWidth = false }) => {
   const [isVisible, setIsVisible] = useState(false);
   const touchTimeout = useRef(null);
 
@@ -32,6 +32,7 @@ const Tooltip = ({ text, children, position = 'top' }) => {
   return (
     <div 
       className="tooltip-wrapper"
+      style={fullWidth ? { width: '100%', display: 'block' } : {}}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
       onFocus={() => setIsVisible(true)}

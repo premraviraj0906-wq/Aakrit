@@ -115,7 +115,7 @@ const Hero = ({ onOpenEstimator }) => {
         <motion.p className="hero-desc"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.85 }}>
-          We don't just build websites; we scale your entire brand identity. From custom vector logos and video assets to high-impact interfaces, we elevate brands at a fraction of typical agency rates.
+          High-impact interfaces and custom brand assets built at a fraction of typical agency rates.
         </motion.p>
 
         <motion.div className="hero-ctas"
