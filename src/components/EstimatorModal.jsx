@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './EstimatorModal.css';
 
@@ -17,6 +17,20 @@ const EstimatorModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e) => { e.preventDefault(); setStep(3); };
   const reset = () => { setStep(1); setFormData({ name: '', email: '', note: '' }); onClose(); };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

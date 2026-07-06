@@ -10,7 +10,7 @@ To ensure Google indexes your site quickly:
 - Sign in with your Google account.
 - Add your property using "URL prefix": https://aakrit.online/
 - In the left-hand menu, click on "Sitemaps".
-- Under "Add a new sitemap", type: sitemap.xml
+- Under "Add a new sitemap", type the full URL: https://aakrit.online/sitemap.xml
 - Click "Submit". Google will crawl and index your site over the next few days.
 
 2. REGISTER A GOOGLE BUSINESS PROFILE

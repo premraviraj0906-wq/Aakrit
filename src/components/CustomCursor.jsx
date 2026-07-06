@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const isTouch = window.matchMedia('(pointer: coarse)').matches;
+      const isMobileWidth = window.innerWidth <= 768;
+      return isTouch || isMobileWidth;
+    }
+    return false;
+  });
   const [isVisible, setIsVisible] = useState(false);
   
   const cursorX = useMotionValue(-100);
@@ -14,6 +22,19 @@ const CustomCursor = () => {
   const sizeSpring = useSpring(cursorSize, { damping: 25, stiffness: 300 });
 
   useEffect(() => {
+    const checkMobile = () => {
+      const isTouch = window.matchMedia('(pointer: coarse)').matches;
+      const isMobileWidth = window.innerWidth <= 768;
+      setIsMobile(isTouch || isMobileWidth);
+    };
+
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const onMouseMove = (e) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -66,7 +87,9 @@ const CustomCursor = () => {
       document.body.removeEventListener('mouseleave', onMouseLeave);
       document.body.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, [cursorX, cursorY, cursorSize]);
+  }, [cursorX, cursorY, cursorSize, isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <motion.div
