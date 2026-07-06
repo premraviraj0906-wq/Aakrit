@@ -193,3 +193,19 @@ input, textarea { font-family: inherit; }
     linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* Responsive Section Paddings Override */
+.services-section,
+.process-section,
+.pricing-section,
+.portfolio-section {
+  padding: var(--sp-80) 0 !important;
+}
+@media (max-width: 768px) {
+  .services-section,
+  .process-section,
+  .pricing-section,
+  .portfolio-section {
+    padding: var(--sp-40) 0 !important;
+  }
+}

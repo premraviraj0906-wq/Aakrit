@@ -1,22 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import './EstimatorModal.css';
 
 const EstimatorModal = ({ isOpen, onClose }) => {
-  const [step, setStep] = useState(1);
-  const [webType, setWebType] = useState('portfolio');
-  const [pages, setPages] = useState(3);
-  const [hasAnimations, setHasAnimations] = useState(true);
-  const [hasSEO, setHasSEO] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', note: '' });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [tier, setTier] = useState('growth');
+  const [message, setMessage] = useState('');
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
-  const calculatePrice = () => {
-    const base = { portfolio: 12500, business: 24000, ecommerce: 37500 }[webType];
-    return (base + (pages - 1) * 2900 + (hasAnimations ? 6600 : 0) + (hasSEO ? 4100 : 0)).toLocaleString('en-IN');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSending(true);
+    setError(null);
+
+    const templateParams = {
+      from_name: name,
+      from_email: email,
+      tier: tier.toUpperCase(),
+      message: message,
+      to_email: 'aakrit.works@gmail.com'
+    };
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Graceful fallback for local development without active API keys
+    if (!serviceId || !templateId || !publicKey || publicKey.includes('placeholder')) {
+      console.warn("EmailJS keys are not set or contain placeholders. Simulating successful send.");
+      setTimeout(() => {
+        setSending(false);
+        setSuccess(true);
+      }, 1200);
+      return;
+    }
+
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
+      .then((res) => {
+        setSending(false);
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.error("EmailJS Error: ", err);
+        setSending(false);
+        setError("Could not send email automatically. Please mail us directly at aakrit.works@gmail.com.");
+      });
   };
 
-  const handleSubmit = (e) => { e.preventDefault(); setStep(3); };
-  const reset = () => { setStep(1); setFormData({ name: '', email: '', note: '' }); onClose(); };
+  const reset = () => {
+    setName('');
+    setEmail('');
+    setTier('growth');
+    setMessage('');
+    setSending(false);
+    setSuccess(false);
+    setError(null);
+    onClose();
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -47,89 +91,62 @@ const EstimatorModal = ({ isOpen, onClose }) => {
         >
           <button className="modal-close" onClick={reset}>✕</button>
 
-          {step === 1 && (
+          {!success ? (
             <div className="modal-step">
-              <p className="modal-eyebrow">Build Configuration</p>
-              <h3 className="modal-title">Project Estimator</h3>
-              <p className="modal-sub">Configure your spec and see an instant cost estimate.</p>
+              <p className="modal-eyebrow">04 — Contact Intake</p>
+              <h3 className="modal-title">Get in Touch</h3>
+              <p className="modal-sub">Submit your project details and we will reach out within 12 hours.</p>
 
-              <div className="form-block">
-                <label className="form-label">Site Type</label>
-                <div className="type-grid">
-                  {['portfolio', 'business', 'ecommerce'].map((t) => (
-                    <button key={t} className={`type-btn ${webType === t ? 'active' : ''}`} onClick={() => setWebType(t)}>
-                      {t.charAt(0).toUpperCase() + t.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="form-block">
-                <label className="form-label">Pages: {pages}</label>
-                <input type="range" min="1" max="12" value={pages}
-                  onChange={(e) => setPages(+e.target.value)} className="range-input" />
-                <div className="range-labels"><span>1</span><span>12</span></div>
-              </div>
-
-              <div className="form-block">
-                <label className="checkbox-row">
-                  <input type="checkbox" checked={hasAnimations} onChange={(e) => setHasAnimations(e.target.checked)} />
-                  <span className="cb-box" />
-                  Motion Engine (+₹6,600)
-                </label>
-                <label className="checkbox-row">
-                  <input type="checkbox" checked={hasSEO} onChange={(e) => setHasSEO(e.target.checked)} />
-                  <span className="cb-box" />
-                  SEO Package (+₹4,100)
-                </label>
-              </div>
-
-              <div className="estimate-row">
-                <span>Estimate</span>
-                <span className="estimate-val">₹{calculatePrice()}</span>
-              </div>
-
-              <button className="btn-chrome full-btn" onClick={() => setStep(2)}>
-                Next step →
-              </button>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="modal-step">
-              <p className="modal-eyebrow">Contact Details</p>
-              <h3 className="modal-title">Secure your build</h3>
-              <p className="modal-sub">Submit and our team will reach out within 12 hours.</p>
-
-              <form onSubmit={handleSubmit} className="contact-form">
-                <input className="bp-input" type="text" placeholder="Your name" required
-                  value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-                <input className="bp-input" type="email" placeholder="Email address" required
-                  value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                <textarea className="bp-input" rows="3" placeholder="Additional details..."
-                  value={formData.note} onChange={(e) => setFormData({ ...formData, note: e.target.value })} />
-
-                <div className="quote-pill">
-                  Project estimate: <strong>₹{calculatePrice()}</strong>
+              <form onSubmit={handleSubmit} className="contact-form" style={{ marginTop: '1rem' }}>
+                <div className="form-block">
+                  <label className="form-label">Full Name</label>
+                  <input className="bp-input" type="text" placeholder="Your name" required
+                    value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
 
-                <div className="btn-row">
-                  <button type="button" className="btn-ghost half-btn" onClick={() => setStep(1)}>← Back</button>
-                  <button type="submit" className="btn-chrome half-btn">Send →</button>
+                <div className="form-block">
+                  <label className="form-label">Email Address</label>
+                  <input className="bp-input" type="email" placeholder="you@example.com" required
+                    value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
+
+                <div className="form-block">
+                  <label className="form-label">Project Tier / Budget</label>
+                  <div className="type-grid">
+                    {['launch', 'growth', 'scale', 'enterprise', 'custom'].map((t) => (
+                      <button type="button" key={t} className={`type-btn ${tier === t ? 'active' : ''}`} onClick={() => setTier(t)}>
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="form-block">
+                  <label className="form-label">Project Details / Message</label>
+                  <textarea className="bp-input" rows="4" placeholder="What are you looking to build?" required
+                    value={message} onChange={(e) => setMessage(e.target.value)} />
+                </div>
+
+                {error && (
+                  <div className="error-banner" style={{ color: 'red', fontSize: 'var(--text-caption)', fontFamily: 'var(--font-roobert)', marginTop: '0.5rem', fontWeight: '600' }}>
+                    {error}
+                  </div>
+                )}
+
+                <button type="submit" className="btn-chrome full-btn" disabled={sending} style={{ marginTop: '1rem' }}>
+                  {sending ? 'Sending Message...' : 'Send Message →'}
+                </button>
               </form>
             </div>
-          )}
-
-          {step === 3 && (
+          ) : (
             <div className="modal-step text-c">
-              <div className="success-icon">✓</div>
+              <div className="success-icon" style={{ fontSize: '32px', marginBottom: '1rem' }}>✓</div>
               <h3 className="modal-title">Sent successfully</h3>
               <p className="modal-sub">
-                Project locked at <strong>₹{calculatePrice()}</strong>. We'll contact {formData.email || 'you'} within 12 hours.
+                Your message has been dispatched. We will contact you at <strong>{email}</strong> within 12 hours.
               </p>
-              <button className="btn-chrome full-btn" style={{ marginTop: '1rem' }} onClick={reset}>
-                Close
+              <button className="btn-chrome full-btn" style={{ marginTop: '1.5rem' }} onClick={reset}>
+                Close Window
               </button>
             </div>
           )}

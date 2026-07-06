@@ -43,3 +43,23 @@ Backlinks are "votes of confidence" that help Google trust your site:
 --------------------------------
 - Set up Vercel Analytics inside your Vercel project dashboard.
 - Watch Google Search Console to see which keywords people use to find your site.
+
+6. BRAND SCALING & MULTIMEDIA (GROWING THE BRAND)
+-------------------------------------------------
+To transition from a simple website to a highly trusted brand that commands premium rates, invest in these brand-growth pillars:
+
+- CUSTOM BRAND LOGOS & IDENTITY:
+  * Ensure a high-contrast, scalable vector logo (SVG) is used consistently across your website, favicons, invoices, and social media.
+  * Define a strict, cohesive color palette (like Aakrit's electric blue and yellow) and custom typography to make the brand instantly recognizable.
+
+- VIDEO MARKETING & EXPLAINERS:
+  * Create a 60-second "Brand explainer video" showing off your website's responsiveness, 3D scenes, and speed.
+  * Publish short-form dev walkthroughs (YouTube Shorts, Reels, TikToks) showing the design-to-code process. Video holds engagement 5x longer than static copy.
+
+- PROFESSIONAL BRAND PHOTOGRAPHY:
+  * Avoid generic stock images of tech offices and laptops.
+  * Use high-quality, customized photography of yourself, your work setups, or bespoke brutalist renders. Original visuals build authentic authority.
+
+- SOCIAL PROOF & LOGO STACKING:
+  * Once you complete client projects, add a "Trusted By" client logo marquee to your site.
+  * Ask clients for video testimonials showing their faces or screens; this adds 10x more trust than static text reviews.

@@ -25,6 +25,13 @@ const services = [
     tags: ['Vercel', 'Cloudflare', 'Analytics', 'SEO'],
     variant: fadeRight,
   },
+  {
+    id: '04',
+    title: 'Brand Scaling & Media',
+    desc: 'Custom logos, identity assets, premium promo videos, and brand photography guidelines designed to multiply your growth.',
+    tags: ['Logo suites', 'Promo Videos', 'Photography', 'Scale Strategy'],
+    variant: fadeUp,
+  },
 ];
 
 const Services = () => {

@@ -1,5 +1,5 @@
 .about-section {
-  padding: 8rem 0;
+  padding: 5rem 0;
   position: relative;
   background-color: var(--color-paper-white);
 }
@@ -31,7 +31,7 @@
 
 @media (max-width: 768px) {
   .about-section {
-    padding: 4rem 0;
+    padding: 2.5rem 0;
   }
   .about-desc {
     font-size: 1rem;
