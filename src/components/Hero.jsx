@@ -104,7 +104,7 @@ const Hero = ({ onOpenEstimator }) => {
         <motion.h1 className="hero-title"
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.45 }}>
-          <img src={logoWhite} className="hero-logo-img" alt="Aakrit" loading="lazy" />
+          <img src={logoWhite} className="hero-logo-img" alt="Aakrit" fetchpriority="high" />
         </motion.h1>
 
         <motion.p className="hero-tagline"
