@@ -17,9 +17,9 @@
   --brutalist-border: 3px solid var(--color-ink-black);
   --brutalist-shadow: 6px 6px 0px var(--color-ink-black);
 
-  --font-roobert: ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-raleway: ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-system: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-roobert: "Madrid", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-raleway: "Madrid", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-system: "Madrid", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   --fw-light: 300;
   --fw-regular: 400;

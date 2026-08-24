@@ -26,6 +26,21 @@
 .logo { display: flex; align-items: center; }
 .logo-icon, .logo-tag { display: none; }
 
+.logo-img {
+  height: 48px;
+  width: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: opacity 0.3s, transform 0.3s, filter 0.3s;
+}
+.navbar.scrolled .logo-img {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  filter: invert(1);
+}
+
 .logo-svg {
   height: 24px;
   width: auto;
