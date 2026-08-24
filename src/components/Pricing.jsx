@@ -149,6 +149,12 @@ const breakdownItems = [
     cost: '+₹1,500 / round',
     details: 'Need additional visual mockups or design iterations beyond your tier\'s default limits? Secure full-frame page revisions in Figma and React code.',
     tags: ['Process', 'Revisions', 'Figma']
+  },
+  {
+    title: 'WhatsApp Automations & Bots',
+    cost: '+₹14,999 optional',
+    details: 'Custom chatbot flows, automated messaging campaigns, and direct CRM integrations for seamless WhatsApp business communication and customer support scaling.',
+    tags: ['Automations', 'Chatbots', 'CRM']
   }
 ];
 

@@ -6,6 +6,7 @@ const EstimatorModal = ({ isOpen, onClose }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [tier, setTier] = useState('growth');
+  const [whatsapp, setWhatsapp] = useState(false);
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -21,7 +22,8 @@ const EstimatorModal = ({ isOpen, onClose }) => {
       const body = encodeURIComponent(
         `Name: ${name}\n` +
         `Email: ${email}\n` +
-        `Project Tier: ${tier.toUpperCase()}\n\n` +
+        `Project Tier: ${tier.toUpperCase()}\n` +
+        `WhatsApp Automations: ${whatsapp ? 'Yes (Premium Add-on)' : 'No'}\n\n` +
         `Message:\n${message}`
       );
 
@@ -37,6 +39,7 @@ const EstimatorModal = ({ isOpen, onClose }) => {
     setName('');
     setEmail('');
     setTier('growth');
+    setWhatsapp(false);
     setMessage('');
     setSending(false);
     setSuccess(false);
@@ -103,6 +106,14 @@ const EstimatorModal = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
+                <div className="form-block" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input type="checkbox" id="whatsapp-addon" checked={whatsapp} onChange={(e) => setWhatsapp(e.target.checked)} style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: 'var(--color-ink-black)' }} />
+                  <label htmlFor="whatsapp-addon" className="form-label" style={{ margin: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    Include WhatsApp Automations 
+                    <span style={{ fontSize: '10px', background: 'var(--color-cloud)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--color-ash)', color: 'var(--color-graphite)' }}>Cost more</span>
+                  </label>
+                </div>
+
                 <div className="form-block">
                   <label className="form-label">Project Details / Message</label>
                   <textarea className="bp-input" rows="4" placeholder="What are you looking to build?" required
@@ -133,7 +144,8 @@ const EstimatorModal = ({ isOpen, onClose }) => {
                   const body = encodeURIComponent(
                     `Name: ${name}\n` +
                     `Email: ${email}\n` +
-                    `Project Tier: ${tier.toUpperCase()}\n\n` +
+                    `Project Tier: ${tier.toUpperCase()}\n` +
+                    `WhatsApp Automations: ${whatsapp ? 'Yes (Premium Add-on)' : 'No'}\n\n` +
                     `Message:\n${message}`
                   );
                   window.location.href = `mailto:aakrit.works@gmail.com?subject=${subject}&body=${body}`;

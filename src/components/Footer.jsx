@@ -62,7 +62,13 @@ const Footer = ({ onOpenEstimator }) => {
                 <a href="mailto:aakrit.works@gmail.com" className="footer-email-link">
                   aakrit.works@gmail.com
                 </a>
-                <span className="footer-region">Base: India / Remote</span>
+                <a href="tel:7760335502" className="footer-email-link" style={{ marginTop: '4px' }}>
+                  +91 77603 35502
+                </a>
+                <a href="https://www.instagram.com/aakrit.web?igsi=MTBkbnhheGxnMWw2YQ==" target="_blank" rel="noopener noreferrer" className="footer-email-link" style={{ marginTop: '4px' }}>
+                  Instagram @aakrit.web
+                </a>
+                <span className="footer-region" style={{ marginTop: '12px' }}>Base: India / Remote</span>
               </div>
             </div>
           </div>
