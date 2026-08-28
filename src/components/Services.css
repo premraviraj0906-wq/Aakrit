@@ -1,185 +1,170 @@
-.services-section {
-  padding: var(--sp-120) 0;
-  background: var(--color-paper-white);
+/*
+ * Parallax Card Deck Services
+ * Palette: Maroon (#4b1426), Pink (#ffb6c1), Beige (#dad5ab), Green (#17433f)
+ */
+
+.services-deck-section {
   width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #17433f;
 }
 
-.services-section .section-title-display {
-  color: var(--color-carbon);
+.services-deck-header {
+  position: absolute;
+  top: 40px;
+  left: 5vw;
+  z-index: 100;
+  pointer-events: none;
 }
 
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: var(--sp-64);
-  margin-right: 6px;
-  margin-bottom: 6px;
-  border: var(--brutalist-border);
-  box-shadow: var(--brutalist-shadow);
-  background: var(--color-paper-white);
+.deck-label {
+  font-family: var(--font-roobert, sans-serif);
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
-.svc-card {
-  padding: var(--sp-40);
+.services-deck-container {
+  width: 400vw; /* 100vw * 4 cards */
+  height: 100vh;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.service-deck-card {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* subtle shadow on the left edge of each card for depth */
+  box-shadow: -20px 0 50px rgba(0,0,0,0.15); 
+}
+
+.deck-card-inner {
+  width: 100%;
+  max-width: var(--page-max, 1600px);
+  padding: 0 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 80px;
+}
+
+/* Left side: massive number and title */
+.deck-card-left {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-12);
-  border-right: var(--brutalist-border);
-  background: var(--color-paper-white);
-  border-radius: 0;
-  border-top: none;
-  border-bottom: none;
-  border-left: none;
-  box-shadow: none;
-  transition: background 0.2s;
+  position: relative;
 }
 
-.svc-card:last-child {
-  border-right: none;
+.deck-card-num {
+  font-family: var(--font-roobert, sans-serif);
+  font-size: clamp(8rem, 20vw, 25rem);
+  font-weight: 900;
+  line-height: 0.8;
+  color: transparent;
+  opacity: 0.2;
+  position: absolute;
+  top: -15vh;
+  left: -2vw;
+  pointer-events: none;
 }
 
-.svc-card:hover {
-  background: var(--color-accent-white);
-  color: var(--color-paper-white);
+.deck-card-title {
+  font-family: var(--font-roobert, sans-serif);
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
-.svc-card:hover .svc-title,
-.svc-card:hover .svc-desc,
-.svc-card:hover .svc-id {
-  color: var(--color-paper-white);
+/* Right side: description and tags */
+.deck-card-right {
+  flex: 0 0 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  z-index: 2;
 }
 
-.svc-card.bp-panel {
-  background: var(--color-paper-white) !important;
-  border: none !important;
-  border-right: var(--brutalist-border) !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+.deck-card-desc {
+  font-family: var(--font-roobert, sans-serif);
+  font-size: 24px;
+  line-height: 1.5;
+  font-weight: 500;
+  margin: 0;
 }
 
-.svc-card.bp-panel:last-child {
-  border-right: none !important;
-}
-
-.svc-card.bp-panel:hover {
-  transform: none !important;
-  background: #ccdbd09d !important;
-}
-
-.svc-card.bp-panel:nth-child(2):hover {
-  background: #ccdbd09d !important;
-}
-
-.svc-card.bp-panel:nth-child(3):hover {
-  background: #ccdbd09d !important;
-}
-
-.svc-card.bp-panel:nth-child(4):hover {
-  background: #ccdbd09d !important
-}
-
-.svc-card.bp-panel:hover .svc-title,
-.svc-card.bp-panel:hover .svc-desc,
-.svc-card.bp-panel:hover .svc-id {
-  color: var(--color-carbon) !important;
-}
-
-.svc-id {
-  font-family: var(--font-roobert);
-  font-size: var(--text-subhead);
-  font-weight: var(--fw-semibold);
-  letter-spacing: 0.08em;
-  color: var(--color-ink-black);
-}
-
-.svc-title {
-  font-family: var(--font-roobert);
-  font-size: var(--text-subhead);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-sub);
-  color: var(--color-carbon);
-  letter-spacing: -0.01em;
-}
-
-.svc-sub {
-  display: none;
-}
-
-.svc-desc {
-  font-family: var(--font-roobert);
-  font-size: var(--text-body-lg);
-  font-weight: var(--fw-regular);
-  line-height: var(--lh-body-lg);
-  color: var(--color-ash);
-  margin-top: var(--sp-8);
-}
-
-.svc-tags {
+.deck-card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: auto;
-  padding-top: var(--sp-28);
+  gap: 12px;
 }
 
-.svc-tag {
-  font-family: var(--font-roobert);
-  font-size: var(--text-label);
-  font-weight: var(--fw-semibold);
-  color: var(--color-ink-black);
-  background: var(--color-paper-white);
-  border: 2px solid var(--color-ink-black);
-  border-radius: var(--radius-sharp);
-  padding: 4px 12px;
-  box-shadow: 2px 2px 0px var(--color-ink-black);
+.deck-tag {
+  font-family: var(--font-roobert, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 8px 16px;
+  border: 2px solid;
 }
 
-.svc-card.bp-panel:hover .svc-tag {
-  box-shadow: 2px 2px 0px var(--color-ink-black);
-}
-
-.svc-card-content {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: var(--sp-12);
-}
-
-@media (max-width: 1100px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
+/* Responsive */
+@media (max-width: 1024px) {
+  .deck-card-inner {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
   }
-
-  .svc-card.bp-panel {
-    border-right: none !important;
-    border-bottom: var(--brutalist-border) !important;
+  
+  .deck-card-right {
+    flex: auto;
+    width: 100%;
   }
-
-  .svc-card.bp-panel:nth-child(even) {
-    border-right: none !important;
-  }
-
-  .svc-card.bp-panel:nth-child(odd) {
-    border-right: var(--brutalist-border) !important;
+  
+  .deck-card-num {
+    top: -10vh;
   }
 }
 
 @media (max-width: 600px) {
-  .services-grid {
-    grid-template-columns: 1fr;
+  .deck-card-title {
+    font-size: clamp(2rem, 9vw, 3.5rem);
   }
-
-  .svc-card,
-  .svc-card.bp-panel {
-    border-right: none !important;
-    border-bottom: var(--brutalist-border) !important;
+  
+  .deck-card-num {
+    font-size: clamp(4.5rem, 16vw, 8rem);
+    top: -6vh;
+    left: -1vw;
   }
-
-  .svc-card:last-child,
-  .svc-card.bp-panel:last-child {
-    border-bottom: none !important;
+  
+  .deck-card-desc {
+    font-size: 16px;
+  }
+  
+  .deck-tag {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  .deck-card-inner {
+    padding: 0 6vw;
+    gap: 24px;
   }
 }

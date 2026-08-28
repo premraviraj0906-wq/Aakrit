@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
+import Work from './components/Work';
 import Process from './components/Process';
 import Pricing from './components/Pricing';
 import About from './components/About';
@@ -45,6 +46,7 @@ function App() {
         <Marquee />
         <About />
         <Services />
+        <Work />
         <Process />
         <Pricing onOpenEstimator={() => setIsEstimatorOpen(true)} />
         <Footer onOpenEstimator={() => setIsEstimatorOpen(true)} />

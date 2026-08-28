@@ -1,411 +1,256 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useScrollReveal } from '../hooks/useScrollReveal';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Pricing.css';
-import Tooltip from './Tooltip';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789₹,./+- ';
 
 const plans = [
   {
-    id: 'Launch',
-    idealFor: 'Portfolios & Landing Pages',
-    origStandard: '₹14,999',
-    priceStandard: '₹9,999',
-    origBundled: '₹22,499',
-    priceBundled: '₹14,999',
-    limit: '3 Pages Included',
-    desc: 'Clean creator portfolios, static landing pages, and single-purpose conversion systems.',
-    featuresStandard: [
-      '1–3 Page Custom Layout',
-      'Fully Responsive Code Structure',
-      'Technical SEO Foundation',
-      '1 Feedback Iteration Round',
-      'Ready in 3 Business Days'
+    id: 'LAUNCH',
+    num: '01',
+    tagline: 'PORTFOLIOS & LANDING PAGES',
+    price: '₹9,999',
+    was: '₹14,999',
+    limit: 'UP TO 3 PAGES',
+    features: [
+      '1–3 PAGE CUSTOM LAYOUT',
+      'FULLY RESPONSIVE CODE',
+      'TECHNICAL SEO FOUNDATION',
+      '1 FEEDBACK ROUND',
+      'READY IN 3 BUSINESS DAYS'
     ],
-    featuresBundled: [
-      '1–3 Page Custom Layout',
-      'Fully Responsive Code Structure',
-      'Technical SEO Foundation',
-      '1 Feedback Iteration Round',
-      'Ready in 3 Business Days',
-      '+ Professional Vector Logo Kit',
-      '+ Typographic Brand Guide'
-    ],
-    cta: 'Get started',
-    glow: 'rgba(244, 63, 94, 0.12)', // Pink glow
+    bg: '#4b1426', text: '#dad5ab', accent: '#ffb6c1'
   },
   {
-    id: 'Growth',
-    idealFor: 'Growing Businesses & Brands',
-    origStandard: '₹24,999',
-    priceStandard: '₹14,999',
-    origBundled: '₹32,499',
-    priceBundled: '₹19,999',
-    limit: '6 Pages Included',
-    desc: 'Animated, highly interactive custom brand websites built to capture high-value leads.',
-    featuresStandard: [
-      'Up to 6 Bespoke Pages',
-      'Interactive Motion UI Blocks',
-      'Advanced Metadata & SEO Suite',
-      'Secure Lead Capture Form',
-      '3 Design Feedback Rounds',
-      'Production Server Deployment'
+    id: 'GROWTH',
+    num: '02',
+    tagline: 'GROWING BUSINESSES & BRANDS',
+    price: '₹14,999',
+    was: '₹24,999',
+    limit: 'UP TO 6 PAGES',
+    features: [
+      'UP TO 6 BESPOKE PAGES',
+      'INTERACTIVE MOTION UI',
+      'ADVANCED SEO SUITE',
+      'SECURE LEAD CAPTURE FORM',
+      '3 DESIGN FEEDBACK ROUNDS',
+      'PRODUCTION DEPLOYMENT'
     ],
-    featuresBundled: [
-      'Up to 6 Bespoke Pages',
-      'Interactive Motion UI Blocks',
-      'Advanced Metadata & SEO Suite',
-      'Secure Lead Capture Form',
-      '3 Design Feedback Rounds',
-      'Production Server Deployment',
-      '+ Professional Vector Logo Kit',
-      '+ Custom Sticker & Graphic Assets'
+    bg: '#ffb6c1', text: '#4b1426', accent: '#17433f'
+  },
+  {
+    id: 'SCALE',
+    num: '03',
+    tagline: 'HIGH-PERFORMANCE PRODUCTS',
+    price: '₹29,999',
+    was: '₹44,999',
+    limit: 'UP TO 12 PAGES',
+    features: [
+      'UP TO 12 BESPOKE PAGES',
+      'CUSTOM HEADLESS CMS',
+      'SIGNATURE JS ANIMATIONS',
+      'SPEED & ASSET TUNING',
+      '5 FEEDBACK ROUNDS',
+      'PRIORITY LAUNCH SUPPORT'
     ],
-    cta: 'Get started',
-    glow: 'rgba(129, 140, 248, 0.25)', // Indigo glow
+    bg: '#17433f', text: '#dad5ab', accent: '#ffb6c1'
   },
   {
-    id: 'Scale',
-    idealFor: 'High-Performance Products',
-    origStandard: '₹44,999',
-    priceStandard: '₹29,999',
-    origBundled: '₹52,499',
-    priceBundled: '₹34,999',
-    limit: '12 Pages Included',
-    desc: 'Advanced business websites featuring headless content management (CMS) or booking engines.',
-    featuresStandard: [
-      'Up to 12 Bespoke Pages',
-      'Custom Headless CMS Integration',
-      'Signature WebGL/JS Animations',
-      'Full Speed & Asset Tuning',
-      '5 Design Feedback Rounds',
-      'Priority Launch Support'
+    id: 'ENTERPRISE',
+    num: '04',
+    tagline: 'BESPOKE PLATFORMS & E-COM',
+    price: '₹49,999+',
+    was: '₹69,999',
+    limit: 'UNLIMITED PAGES',
+    features: [
+      'UNLIMITED PAGES',
+      'E-STORE CHECKOUT FLOW',
+      'CUSTOM REST/GRAPHQL APIS',
+      'FULL SEO AUDIT & SCHEMA',
+      'UNLIMITED DESIGN ROUNDS',
+      'COMPREHENSIVE LAUNCH QA'
     ],
-    featuresBundled: [
-      'Up to 12 Bespoke Pages',
-      'Custom Headless CMS Integration',
-      'Signature WebGL/JS Animations',
-      'Full Speed & Asset Tuning',
-      '5 Design Feedback Rounds',
-      'Priority Launch Support',
-      '+ Complete Brand Identity Kit',
-      '+ Explainer Video Assets'
-    ],
-    cta: 'Get started',
-    glow: 'rgba(16, 185, 129, 0.12)', // Sage glow
-  },
-  {
-    id: 'Enterprise',
-    idealFor: 'Bespoke Platforms & E-Com',
-    origStandard: '₹69,999',
-    priceStandard: '₹49,999+',
-    origBundled: '₹77,499',
-    priceBundled: '₹54,999+',
-    limit: 'Unlimited Pages',
-    desc: 'Custom engineered web applications, full e-commerce checkouts, and custom API pipelines.',
-    featuresStandard: [
-      'Unlimited Pages Configured',
-      'Secure E-Store Checkout Flow',
-      'Custom REST/GraphQL APIs',
-      'Full SEO Audit & Schema Setup',
-      'Unlimited Design Rounds',
-      'Comprehensive Launch QA'
-    ],
-    featuresBundled: [
-      'Unlimited Pages Configured',
-      'Secure E-Store Checkout Flow',
-      'Custom REST/GraphQL APIs',
-      'Full SEO Audit & Schema Setup',
-      'Unlimited Design Rounds',
-      'Comprehensive Launch QA',
-      '+ Master Media Directive Pack',
-      '+ Signature Custom Animations'
-    ],
-    cta: 'Contact us',
-    glow: 'rgba(245, 158, 11, 0.12)', // Amber glow
-  },
-];
-
-const breakdownItems = [
-  {
-    title: 'Domain & Hosting Setup',
-    cost: 'Depends on TLD',
-    details: 'Managed high-speed CDN hosting setup is free for the first year. Domain registration cost depends on the specific domain chosen (.com, .in, .ai, etc.).',
-    tags: ['Infrastructure', 'Domain', 'Hosting']
-  },
-  {
-    title: 'Technical SEO Suite',
-    cost: 'Included in all plans',
-    details: 'Semantic HTML markup structures, JSON-LD Schema structures, automatic sitemap.xml & robots.txt creation, image ALT tag compression, and Google Search Console index configuration.',
-    tags: ['Marketing', 'SEO', 'Indexation']
-  },
-  {
-    title: 'Brand Media & Growth Suite',
-    cost: '+₹7,500 optional',
-    details: 'Professional SVG logo vectors, digital branding kit (typography & color tokens), custom vector sticker assets, ready-to-use video explainer layouts, and photography directives.',
-    tags: ['Identity', 'Graphics', 'Video']
-  },
-  {
-    title: 'Additional Feedback Loop',
-    cost: '+₹1,500 / round',
-    details: 'Need additional visual mockups or design iterations beyond your tier\'s default limits? Secure full-frame page revisions in Figma and React code.',
-    tags: ['Process', 'Revisions', 'Figma']
-  },
-  {
-    title: 'WhatsApp Automations & Bots',
-    cost: '+₹14,999 optional',
-    details: 'Custom chatbot flows, automated messaging campaigns, and direct CRM integrations for seamless WhatsApp business communication and customer support scaling.',
-    tags: ['Automations', 'Chatbots', 'CRM']
+    bg: '#dad5ab', text: '#4b1426', accent: '#17433f'
   }
 ];
 
-const container = { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } };
-const card = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
-};
-const header = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-};
+// ── Split-Flap Character ──────────────────────────────────────────────
+const FlipChar = ({ char, delay = 0 }) => {
+  const [display, setDisplay] = useState(char);
+  const [flipping, setFlipping] = useState(false);
 
-const PricingCard = ({ plan, isBundled, isFeatured, onOpenEstimator }) => {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  useEffect(() => {
+    let timeouts = [];
+    let iterations = 0;
+    const totalFlips = 10 + Math.floor(Math.random() * 6);
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
+    const flip = () => {
+      if (iterations >= totalFlips) {
+        setDisplay(char === ' ' ? '\u00A0' : char);
+        setFlipping(false);
+        return;
+      }
+      setFlipping(true);
+      setDisplay(char === ' ' ? '\u00A0' : CHARS[Math.floor(Math.random() * CHARS.length)]);
+      iterations++;
+      const t = setTimeout(flip, 40 + iterations * 4);
+      timeouts.push(t);
+    };
 
-  const currentPrice = isBundled ? plan.priceBundled : plan.priceStandard;
-  const originalPrice = isBundled ? plan.origBundled : plan.origStandard;
-  const features = isBundled ? plan.featuresBundled : plan.featuresStandard;
+    const start = setTimeout(flip, delay);
+    timeouts.push(start);
+
+    return () => timeouts.forEach(clearTimeout);
+  }, [char, delay]);
 
   return (
-    <motion.div
-      className={`plan-card${isFeatured ? ' plan-featured' : ''}`}
-      variants={card}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{ position: 'relative', overflow: 'hidden' }}
-      whileHover={{ y: -8, transition: { duration: 0.2 } }}
-    >
-      {isHovered && (
-        <div
-          className="spotlight-glow"
-          style={{
-            position: 'absolute',
-            top: coords.y - 150,
-            left: coords.x - 150,
-            width: 300,
-            height: 300,
-            background: `radial-gradient(circle, ${plan.glow} 0%, transparent 70%)`,
-            borderRadius: '50%',
-            pointerEvents: 'none',
-            zIndex: 0,
-            transition: 'opacity 0.15s ease',
-          }}
-        />
-      )}
-      <div className="plan-card-content">
-        {isFeatured && <span className="featured-badge">Recommended</span>}
-        <div className="plan-header-block">
-          <div className="plan-ideal">{plan.idealFor}</div>
-          <div className="plan-name">{plan.id}</div>
-        </div>
-
-        <div className="plan-badge-row">
-          <span className="plan-limit-badge">{plan.limit}</span>
-        </div>
-
-        <div className="plan-price-container">
-          {originalPrice && (
-            <span className="plan-price-original">was {originalPrice}</span>
-          )}
-          <motion.div 
-            key={currentPrice}
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="plan-price"
-          >
-            {currentPrice}
-          </motion.div>
-        </div>
-
-        <p className="plan-desc">{plan.desc}</p>
-        
-        <div className="plan-features-divider" />
-        
-        <div className="plan-deliverables-title">Key Deliverables</div>
-        <ul className="plan-features">
-          {features.map((f, idx) => {
-            const isHighlight = f.startsWith('+');
-            return (
-              <li key={idx} className={isHighlight ? 'feat-highlight' : ''}>
-                <span className="feat-check">✓</span>
-                {f}
-              </li>
-            );
-          })}
-        </ul>
-        
-        <Tooltip text={`Start ${plan.id} plan`} position="top">
-          <button className={`plan-btn ${isFeatured ? 'btn-chrome' : 'btn-ghost'}`} onClick={onOpenEstimator}>
-            {plan.cta}
-          </button>
-        </Tooltip>
-      </div>
-    </motion.div>
+    <span className={`flip-char ${flipping ? 'flipping' : ''}`}>
+      {display}
+    </span>
   );
 };
 
-const Pricing = ({ onOpenEstimator }) => {
-  const { ref, isInView } = useScrollReveal(0.1);
-  const [showAddons, setShowAddons] = useState(false);
-  const [isBundled, setIsBundled] = useState(false);
-  const [pageCount, setPageCount] = useState(5); // Default page count
+// ── Animated FlipText line ────────────────────────────────────────────
+const FlipText = ({ text, className = '', baseDelay = 0, trigger }) => {
+  const [key, setKey] = useState(0);
 
-  // Determine which plan is recommended based on page count input
-  let recommendedPlanId = 'Growth';
-  if (pageCount <= 3) {
-    recommendedPlanId = 'Launch';
-  } else if (pageCount <= 6) {
-    recommendedPlanId = 'Growth';
-  } else if (pageCount <= 12) {
-    recommendedPlanId = 'Scale';
-  } else {
-    recommendedPlanId = 'Enterprise';
-  }
+  useEffect(() => {
+    setKey(k => k + 1);
+  }, [trigger]);
 
   return (
-    <section id="pricing" className="pricing-section texture-dots">
-      <div className="container">
-        <motion.div ref={ref} initial="hidden" animate={isInView ? 'visible' : 'hidden'} variants={container}>
-          <motion.div variants={header} className="pricing-header-wrapper">
-            <div>
-              <span className="section-label">03 — Rates</span>
-              <h2 className="section-title-display">Pricing</h2>
-            </div>
-            
-            <div className="pricing-toggle-container">
-              <Tooltip text="Switch to website only" position="top">
-                <button 
-                  className={`pricing-toggle-btn ${!isBundled ? 'active' : ''}`}
-                  onClick={() => setIsBundled(false)}
-                >
-                  Standard Web
-                </button>
-              </Tooltip>
-              <Tooltip text="Include full branding kit" position="top">
-                <button 
-                  className={`pricing-toggle-btn ${isBundled ? 'active' : ''}`}
-                  onClick={() => setIsBundled(true)}
-                >
-                  + Branding Bundle
-                </button>
-              </Tooltip>
-              <span className="pricing-toggle-badge">Save ₹2,500!</span>
-            </div>
-          </motion.div>
+    <span className={`flip-text ${className}`}>
+      {text.split('').map((ch, i) => (
+        <FlipChar key={`${key}-${i}`} char={ch} delay={baseDelay + i * 28} />
+      ))}
+    </span>
+  );
+};
 
-          {/* New Interactive Planner Slider Component */}
-          <div className="pricing-slider-section">
-            <div className="slider-header">
-              <span className="slider-label">Project Scope Planner</span>
-              <div className="slider-value-display">
-                <span className="count-num">{pageCount}</span> {pageCount === 1 ? 'Page' : 'Pages'}
-              </div>
-            </div>
-            
-            <Tooltip text="Drag to estimate project scope" position="top">
-              <div className="slider-wrapper">
-                <input 
-                  type="range" 
-                  min="1" 
-                  max="20" 
-                  value={pageCount} 
-                  onChange={(e) => setPageCount(parseInt(e.target.value))}
-                  className="brutalist-slider"
-                />
-              <div className="slider-ticks">
-                <span className={pageCount <= 3 ? 'tick-active' : ''} onClick={() => setPageCount(3)}>1-3 pgs (Launch)</span>
-                <span className={(pageCount > 3 && pageCount <= 6) ? 'tick-active' : ''} onClick={() => setPageCount(5)}>4-6 pgs (Growth)</span>
-                <span className={(pageCount > 6 && pageCount <= 12) ? 'tick-active' : ''} onClick={() => setPageCount(10)}>7-12 pgs (Scale)</span>
-                <span className={pageCount > 12 ? 'tick-active' : ''} onClick={() => setPageCount(18)}>13+ pgs (Enterprise)</span>
-              </div>
-              </div>
-            </Tooltip>
-            
-            <div className="recommendation-message">
-              Based on your page scope, we recommend the <span className="recommend-highlight">{recommendedPlanId}</span> Plan.
-            </div>
-          </div>
+// ── Main Pricing Component ────────────────────────────────────────────
+const Pricing = ({ onOpenEstimator }) => {
+  const [active, setActive] = useState(0);
+  const [flipKey, setFlipKey] = useState(0);
+  const sectionRef = useRef(null);
 
-          <div className="pricing-grid">
-            {plans.map((plan) => {
-              const isRecommended = plan.id === recommendedPlanId;
-              return (
-                <PricingCard 
-                  key={plan.id} 
-                  plan={plan} 
-                  isBundled={isBundled} 
-                  isFeatured={isRecommended}
-                  onOpenEstimator={onOpenEstimator} 
-                />
-              );
-            })}
-          </div>
+  const switchPlan = useCallback((idx) => {
+    setActive(idx);
+    setFlipKey(k => k + 1);
+  }, []);
 
-          <div className="pricing-breakdown-section">
-            <button 
-              className="addons-dropdown-toggle"
-              onClick={() => setShowAddons(!showAddons)}
-            >
-              <span>View Optional Add-ons & Expenses</span>
-              <motion.span 
-                animate={{ rotate: showAddons ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="toggle-arrow"
-              >
-                ▼
-              </motion.span>
-            </button>
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.pricing-board',
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', end: 'top 40%', scrub: 1 }
+        }
+      );
+      gsap.fromTo('.pricing-plan-tabs',
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', end: 'top 50%', scrub: 1 }
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
-            <AnimatePresence initial={false}>
-              {showAddons && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className="addons-dropdown-content"
-                  style={{ overflow: 'hidden' }}
-                >
-                  <div className="breakdown-grid" style={{ paddingTop: '20px' }}>
-                    {breakdownItems.map((item) => (
-                      <div key={item.title} className="breakdown-card">
-                        <div className="breakdown-card-header">
-                          <h4 className="breakdown-card-title">{item.title}</h4>
-                          <span className="breakdown-card-cost">{item.cost}</span>
-                        </div>
-                        <p className="breakdown-card-details">{item.details}</p>
-                        <div className="breakdown-card-tags">
-                          {item.tags.map(t => <span key={t} className="breakdown-card-tag">{t}</span>)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+  const plan = plans[active];
 
-        </motion.div>
+  return (
+    <section id="pricing" className="pricing-section" ref={sectionRef}>
+
+      {/* Section header */}
+      <div className="pricing-section-header">
+        <span className="pricing-section-label">05 — Rates</span>
+        <h2 className="pricing-section-title">Pricing</h2>
       </div>
+
+      {/* Plan selector tabs */}
+      <div className="pricing-plan-tabs">
+        {plans.map((p, i) => (
+          <button
+            key={p.id}
+            className={`plan-tab ${active === i ? 'active' : ''}`}
+            style={active === i ? { background: p.bg, color: p.text, borderColor: p.bg } : {}}
+            onClick={() => switchPlan(i)}
+          >
+            <span className="plan-tab-num">{p.num}</span>
+            <span className="plan-tab-name">{p.id}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* The Departure Board */}
+      <div className="pricing-board" style={{ background: plan.bg, color: plan.text }}>
+
+        {/* Ghost BG number */}
+        <div
+          className="board-bg-num"
+          style={{ WebkitTextStroke: `2px ${plan.accent}`, opacity: 0.06 }}
+        >{plan.num}</div>
+
+        {/* Row 1 — Plan name + tagline */}
+        <div className="board-row board-row-header" style={{ borderColor: `${plan.text}20` }}>
+          <div className="board-cell cell-label" style={{ color: plan.accent }}>PLAN</div>
+          <div className="board-cell cell-plan-name">
+            <FlipText text={plan.id} className="text-plan-name" baseDelay={0} trigger={flipKey} />
+          </div>
+          <div className="board-cell cell-tagline">
+            <FlipText text={plan.tagline} className="text-tagline" baseDelay={100} trigger={flipKey} />
+          </div>
+          <div className="board-cell cell-limit" style={{ color: plan.accent }}>
+            <FlipText text={plan.limit} className="text-limit" baseDelay={200} trigger={flipKey} />
+          </div>
+        </div>
+
+        {/* Row 2 — Big price */}
+        <div className="board-row board-row-price" style={{ borderColor: `${plan.text}20` }}>
+          <div className="board-cell cell-label" style={{ color: plan.accent }}>RATE</div>
+          <div className="board-cell cell-was" style={{ opacity: 0.4 }}>
+            <span className="was-label">WAS</span>
+            <FlipText text={plan.was} className="text-was" baseDelay={0} trigger={flipKey} />
+          </div>
+          <div className="board-cell cell-price">
+            <FlipText text={plan.price} className="text-price" baseDelay={60} trigger={flipKey} />
+          </div>
+          <div className="board-cell cell-cta">
+            <button
+              className="board-cta-btn"
+              style={{ background: plan.accent, color: plan.bg }}
+              onClick={onOpenEstimator}
+            >
+              START ↗
+            </button>
+          </div>
+        </div>
+
+        {/* Row 3 — Features */}
+        <div className="board-row board-row-features">
+          <div className="board-cell cell-label" style={{ color: plan.accent }}>INCLUDES</div>
+          <div className="board-cell cell-features">
+            {plan.features.map((f, i) => (
+              <div key={`${flipKey}-${i}`} className="board-feature" style={{ animationDelay: `${i * 80 + 400}ms` }}>
+                <span className="bf-check" style={{ color: plan.accent }}>✓</span>
+                <span>{f}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      <p className="pricing-footnote">
+        * All plans include technical SEO, domain setup assistance & CDN hosting.
+        Branding bundles available on request.
+      </p>
+
     </section>
   );
 };

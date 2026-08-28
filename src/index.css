@@ -209,3 +209,20 @@ input, textarea { font-family: inherit; }
     padding: var(--sp-40) 0 !important;
   }
 }
+
+/* Scoped theme override for pages below the fold */
+.about-section,
+.services-section,
+.process-section,
+.pricing-section,
+.footer {
+  --color-paper-white: #FFB6C1;
+  --color-accent-yellow: #FFB6C1;
+  --color-ink-black: #4b1426;
+  --color-carbon: #4b1426;
+  --color-cloud: #FFB6C1;
+  --color-cloud-white: #FFB6C1;
+  --brutalist-border: 3px solid var(--color-ink-black);
+  --brutalist-shadow: 6px 6px 0px var(--color-ink-black);
+}
+
