@@ -207,7 +207,6 @@
   border: 1px solid rgba(218, 213, 171, 0.4);
 }
 
-/* Responsive Overrides */
 @media (max-width: 768px) {
   .hamburger-btn {
     top: 18px;
@@ -215,15 +214,44 @@
     width: 48px;
     height: 48px;
   }
-  
+
   .curtain-inner {
-    padding: 90px 5vw 32px 5vw;
+    padding: 90px 6vw 32px 6vw;
+    align-items: center;
+    text-align: center;
   }
-  
+
+  .curtain-body {
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Center nav links on mobile */
+  .curtain-links {
+    align-items: center;
+    width: 100%;
+  }
+
+  .curtain-links a {
+    font-size: clamp(2.2rem, 11vw, 4.5rem);
+    -webkit-text-stroke: 1.5px #dad5ab;
+    text-align: center;
+  }
+
+  .curtain-cta-wrap {
+    align-items: center;
+    border-top: 1px dashed rgba(218, 213, 171, 0.2);
+  }
+
   .curtain-footer {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 16px;
+  }
+
+  .curtain-socials {
+    justify-content: center;
   }
 }
 
