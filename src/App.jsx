@@ -10,6 +10,17 @@ import Footer from './components/Footer';
 import EstimatorModal from './components/EstimatorModal';
 import CustomCursor from './components/CustomCursor';
 
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Prevent mobile address bar resize from destroying scroll position
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+  autoRefreshEvents: "visibilitychange,DOMContentLoaded,load"
+});
+
 const MARQUEE_ITEMS = [
   'Custom Web Development', 'Motion UI', 'React & Vite',
   'Three.js', 'Responsive Design', 'Vercel Deploy',

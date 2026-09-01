@@ -45,24 +45,40 @@ const Services = () => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) return; // Allow natural vertical scrolling on mobile without pin lock
-
     const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 768;
       const cards = gsap.utils.toArray('.service-deck-card');
-      
-      // Pin the section and animate cards horizontally (desktop only)
-      gsap.to(cards, {
-        xPercent: -100 * (cards.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: true,
-          scrub: 1,
-          snap: 1 / (cards.length - 1),
-          end: () => "+=" + containerRef.current.offsetWidth
-        }
-      });
+
+      if (!isMobile) {
+        // Pin the section and animate cards horizontally on desktop
+        gsap.to(cards, {
+          xPercent: -100 * (cards.length - 1),
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            pin: true,
+            scrub: 1,
+            snap: 1 / (cards.length - 1),
+            end: () => "+=" + containerRef.current.offsetWidth
+          }
+        });
+      } else {
+        // Smooth fade in cards on mobile without pinning body scroll
+        gsap.fromTo(cards,
+          { opacity: 0.2, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+            }
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
