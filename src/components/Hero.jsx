@@ -199,6 +199,9 @@ const Hero = ({ onOpenEstimator }) => {
   }, []);
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return; // Prevent scroll locking & touch stutter on mobile
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {

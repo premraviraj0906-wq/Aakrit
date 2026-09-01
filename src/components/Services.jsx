@@ -45,10 +45,13 @@ const Services = () => {
   const containerRef = useRef(null);
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return; // Allow natural vertical scrolling on mobile without pin lock
+
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray('.service-deck-card');
       
-      // Pin the section and animate cards horizontally
+      // Pin the section and animate cards horizontally (desktop only)
       gsap.to(cards, {
         xPercent: -100 * (cards.length - 1),
         ease: "none",

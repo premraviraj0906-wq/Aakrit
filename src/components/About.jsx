@@ -13,32 +13,56 @@ const About = () => {
     const ctx = gsap.context(() => {
       const isMobile = window.innerWidth < 768;
       
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=300%", // 3 full viewport heights of scrolling
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-        }
-      });
+      if (isMobile) {
+        // Mobile-friendly reveal animation without pin lock
+        gsap.to('.about-mask-overlay', {
+          opacity: 0,
+          scale: 10,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "top 25%",
+            scrub: 0.5
+          }
+        });
+        gsap.fromTo(contentRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 60%",
+              end: "top 20%",
+              scrub: 0.5
+            }
+          }
+        );
+      } else {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "+=300%",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+          }
+        });
 
-      // 1. Scale the mask container into the 'R' and fade out completely
-      tl.to('.about-mask-overlay', {
-        scale: isMobile ? 350 : 180,
-        opacity: 0,
-        transformOrigin: isMobile ? "33% 50%" : "41% 50%",
-        ease: "power2.inOut",
-        duration: 1
-      }, 0);
+        tl.to('.about-mask-overlay', {
+          scale: 180,
+          opacity: 0,
+          transformOrigin: "41% 50%",
+          ease: "power2.inOut",
+          duration: 1
+        }, 0);
 
-      // 2. Fade in the actual content once zoomed in
-      tl.fromTo(contentRef.current, 
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 0.4, ease: "power1.out" },
-        0.5 // Start fading in when the zoom is 50% done
-      );
+        tl.fromTo(contentRef.current, 
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 0.4, ease: "power1.out" },
+          0.5
+        );
+      }
       
     }, sectionRef);
 
