@@ -220,7 +220,7 @@
 /* Responsive Mobile Scaling */
 @media (max-width: 600px) {
   .hero-minimal-wrapper {
-    min-height: 100dvh; /* Use dynamic viewport height on mobile */
+    min-height: 100vh;
     padding: 0;
     align-items: center;
     justify-content: center;

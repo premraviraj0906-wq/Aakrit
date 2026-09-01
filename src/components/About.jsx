@@ -22,6 +22,8 @@ const About = () => {
           pin: true,
           anticipatePin: 1,
           pinSpacing: true,
+          fastScrollEnd: true,
+          preventOverlaps: true,
         }
       });
 

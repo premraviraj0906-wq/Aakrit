@@ -205,7 +205,8 @@ const Hero = ({ onOpenEstimator }) => {
           trigger: containerRef.current,
           start: "top top",
           end: "+=120%",
-          scrub: 1
+          scrub: 1,
+          fastScrollEnd: true,
         }
       });
 

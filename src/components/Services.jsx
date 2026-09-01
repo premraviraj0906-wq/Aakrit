@@ -59,6 +59,8 @@ const Services = () => {
           snap: isMobile ? false : 1 / (cards.length - 1),
           end: () => "+=" + (isMobile ? containerRef.current.offsetWidth * 0.75 : containerRef.current.offsetWidth),
           pinSpacing: true,
+          fastScrollEnd: true,
+          preventOverlaps: true,
         }
       });
     }, sectionRef);
