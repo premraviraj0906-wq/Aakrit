@@ -7,7 +7,12 @@ import logoWhite from '../assets/aakrit_logo_white.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Three.js Interactive Full-Page Dots Background ───────────────────
+// ── CSS Dot Grid Background (Mobile) ─────────────────────────────────
+const CssDotsBackground = () => (
+  <div className="hero-css-dots" aria-hidden="true" />
+);
+
+// ── Three.js Interactive Dots Background (Desktop only) ───────────────
 const ThreeDotsBackground = () => {
   const mountRef = useRef(null);
 
@@ -50,22 +55,18 @@ const ThreeDotsBackground = () => {
     for (let i = 0; i < numPoints; i++) {
       const col = i % cols;
       const row = Math.floor(i / cols);
-
       const x = xOffset + col * xSpacing;
       const y = yOffset + row * ySpacing;
-      const z = 0;
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
-
+      positions[i * 3 + 2] = 0;
       initialPositions[i * 3] = x;
       initialPositions[i * 3 + 1] = y;
-      initialPositions[i * 3 + 2] = z;
+      initialPositions[i * 3 + 2] = 0;
 
       const mixRatio = (col / cols + row / rows) / 2;
       const colColor = beige.clone().lerp(pink, mixRatio * 0.45);
-
       colors[i * 3] = colColor.r;
       colors[i * 3 + 1] = colColor.g;
       colors[i * 3 + 2] = colColor.b;
@@ -75,20 +76,17 @@ const ThreeDotsBackground = () => {
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    const canvas = document.createElement('canvas');
-    canvas.width = 64;
-    canvas.height = 64;
-    const ctx = canvas.getContext('2d');
+    const dotCanvas = document.createElement('canvas');
+    dotCanvas.width = 64; dotCanvas.height = 64;
+    const ctx = dotCanvas.getContext('2d');
     ctx.beginPath();
     ctx.arc(32, 32, 26, 0, Math.PI * 2);
     ctx.fillStyle = '#ffffff';
     ctx.fill();
 
-    const texture = new THREE.CanvasTexture(canvas);
-
     const material = new THREE.PointsMaterial({
       size: 4.5,
-      map: texture,
+      map: new THREE.CanvasTexture(dotCanvas),
       transparent: true,
       vertexColors: true,
       depthWrite: false,
@@ -102,16 +100,14 @@ const ThreeDotsBackground = () => {
 
     const handleMouseMove = (e) => {
       const rect = container.getBoundingClientRect();
-      const clientX = e.clientX - rect.left;
-      const clientY = e.clientY - rect.top;
-      mouse.targetX = (clientX / width) * 2 - 1;
-      mouse.targetY = -(clientY / height) * 2 + 1;
+      mouse.targetX = ((e.clientX - rect.left) / width) * 2 - 1;
+      mouse.targetY = -(((e.clientY - rect.top) / height) * 2 - 1);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
 
     let animationFrameId;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
@@ -122,7 +118,6 @@ const ThreeDotsBackground = () => {
 
       const posAttr = geometry.attributes.position;
       const posArray = posAttr.array;
-
       const mouseWorldX = mouse.x * (visibleWidth / 2);
       const mouseWorldY = mouse.y * (visibleHeight / 2);
 
@@ -130,18 +125,14 @@ const ThreeDotsBackground = () => {
         const idx = i * 3;
         const ix = initialPositions[idx];
         const iy = initialPositions[idx + 1];
-
         const waveZ = Math.sin(time * 1.5 + ix * 0.01 + iy * 0.01) * 14;
 
         const dx = ix - mouseWorldX;
         const dy = iy - mouseWorldY;
         const distSq = dx * dx + dy * dy;
-        const radiusSq = 140 * 140;
+        let pushX = 0, pushY = 0;
 
-        let pushX = 0;
-        let pushY = 0;
-
-        if (distSq < radiusSq && mouse.x !== -9999) {
+        if (distSq < 140 * 140 && mouse.x !== -9999) {
           const dist = Math.sqrt(distSq);
           const force = (1 - dist / 140) * 40;
           const angle = Math.atan2(dy, dx);
@@ -175,9 +166,7 @@ const ThreeDotsBackground = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
-      }
+      if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
@@ -185,6 +174,12 @@ const ThreeDotsBackground = () => {
   }, []);
 
   return <div ref={mountRef} className="hero-three-bg" />;
+};
+
+// ── Device-Aware Dots Picker ──────────────────────────────────────────
+const DotsBackground = () => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  return isMobile ? <CssDotsBackground /> : <ThreeDotsBackground />;
 };
 
 // ── Ultra-Minimal Sleek Hero Component ─────────────────────────────
@@ -226,7 +221,7 @@ const Hero = ({ onOpenEstimator }) => {
   return (
     <section className="hero-minimal-wrapper" ref={containerRef} id="home" onMouseMove={handleMouseMove}>
       {/* Full-Page Three.js Interactive Particles */}
-      <ThreeDotsBackground />
+      <DotsBackground />
 
       {/* Ambient Mouse Glow */}
       <div className="hero-grid-glow" ref={glowRef}></div>
