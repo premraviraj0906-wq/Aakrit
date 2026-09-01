@@ -17,10 +17,11 @@ const About = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=300%", // 3 full viewport heights of scrolling
-          scrub: 1,
+          end: isMobile ? "+=140%" : "+=300%",
+          scrub: 0.8,
           pin: true,
           anticipatePin: 1,
+          pinSpacing: true,
         }
       });
 

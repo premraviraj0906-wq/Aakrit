@@ -48,16 +48,17 @@ const Services = () => {
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray('.service-deck-card');
       
-      // Pin the section and animate cards horizontally
+      const isMobile = window.innerWidth < 768;
       gsap.to(cards, {
         xPercent: -100 * (cards.length - 1),
         ease: "none",
         scrollTrigger: {
           trigger: sectionRef.current,
           pin: true,
-          scrub: 1,
-          snap: 1 / (cards.length - 1),
-          end: () => "+=" + containerRef.current.offsetWidth
+          scrub: 0.8,
+          snap: isMobile ? false : 1 / (cards.length - 1),
+          end: () => "+=" + (isMobile ? containerRef.current.offsetWidth * 0.75 : containerRef.current.offsetWidth),
+          pinSpacing: true,
         }
       });
     }, sectionRef);

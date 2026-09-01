@@ -9,6 +9,11 @@ import About from './components/About';
 import Footer from './components/Footer';
 import EstimatorModal from './components/EstimatorModal';
 import CustomCursor from './components/CustomCursor';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const MARQUEE_ITEMS = [
   'Custom Web Development', 'Motion UI', 'React & Vite',
