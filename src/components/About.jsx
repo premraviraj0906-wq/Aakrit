@@ -16,10 +16,10 @@ const About = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: isMobile ? "top 80%" : "top top",
-          end: isMobile ? "bottom 20%" : "+=300%",
-          scrub: isMobile ? 0.5 : 1,
-          pin: !isMobile,
+          start: "top top",
+          end: "+=300%", // 3 full viewport heights of scrolling
+          scrub: 1,
+          pin: true,
           anticipatePin: 1,
         }
       });
