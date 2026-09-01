@@ -467,40 +467,178 @@
   box-shadow: 9px 9px 0 #4b1426;
 }
 
-/* ── Responsive ── */
+/* ── Responsive Mobile Scaling ── */
 @media (max-width: 960px) {
+  .modal-overlay {
+    padding: 12px 10px;
+  }
+
+  .spec-box {
+    max-height: 94vh;
+    box-shadow: 6px 6px 0 #4b1426;
+    border-width: 3px;
+  }
+
   .spec-layout {
     grid-template-columns: 1fr;
     max-height: none;
     overflow: visible;
   }
-  .spec-blueprint-col {
-    border-right: none;
-    border-bottom: 4px solid #4b1426;
-    padding: 32px;
-  }
+
   .spec-config-col {
     max-height: none;
-    padding: 32px;
+    padding: 24px 20px;
+    order: 1;
   }
-  .spec-box {
-    max-height: 95vh;
+
+  .spec-blueprint-col {
+    border-right: none;
+    border-top: 3px solid #4b1426;
+    padding: 24px 20px;
+    order: 2;
   }
 }
 
 @media (max-width: 600px) {
-  .row-fields {
-    flex-direction: column;
+  .modal-overlay {
+    padding: 8px 6px;
+  }
+
+  .spec-box {
+    box-shadow: 4px 4px 0 #4b1426;
+    border-width: 3px;
+    max-height: 94dvh;
+  }
+
+  .modal-close {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .config-header {
+    margin-bottom: 20px;
+    padding-right: 36px;
+  }
+
+  .config-title {
+    font-size: 1.5rem;
+  }
+
+  .config-sub {
+    font-size: 12px;
+  }
+
+  .config-form {
     gap: 16px;
   }
-  .spec-blueprint-col,
-  .spec-config-col {
-    padding: 24px;
+
+  .config-toggle-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
   }
+
+  .config-toggle-btn {
+    padding: 8px 10px;
+    font-size: 10.5px;
+    text-align: center;
+  }
+
+  .addons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .addon-card {
+    padding: 10px;
+  }
+
+  .addon-name {
+    font-size: 11.5px;
+  }
+
+  .addon-price {
+    font-size: 10.5px;
+  }
+
+  .row-fields {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bp-input {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .config-submit-btn {
+    padding: 14px;
+    font-size: 12px;
+    box-shadow: 4px 4px 0 #17433f;
+    margin-top: 6px;
+  }
+
+  .spec-blueprint-col {
+    padding: 18px 14px;
+  }
+
+  .blueprint-items {
+    margin: 14px 0;
+    gap: 10px;
+  }
+
+  .bp-row {
+    font-size: 12px;
+    padding-bottom: 6px;
+  }
+
+  .blueprint-totals {
+    padding-top: 14px;
+    gap: 8px;
+  }
+
+  .total-price-row {
+    padding: 12px;
+  }
+
   .total-price-row .bpt-value {
-    font-size: 26px;
+    font-size: 22px;
   }
+
+  .bpt-value {
+    font-size: 16px;
+  }
+
+  .success-step {
+    padding: 40px 16px;
+    gap: 16px;
+  }
+
+  .success-badge {
+    font-size: 44px;
+  }
+
   .success-title {
-    font-size: 2rem;
+    font-size: 1.6rem;
+  }
+
+  .success-desc {
+    font-size: 13px;
+  }
+
+  .success-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .success-action-btn {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 12px 20px;
   }
 }
