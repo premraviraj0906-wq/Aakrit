@@ -55,6 +55,7 @@
   pointer-events: none;
   z-index: 2;
   transition: background 0.08s ease-out;
+  will-change: background;
 }
 
 .hero-minimal-container {

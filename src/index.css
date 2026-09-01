@@ -17,9 +17,9 @@
   --brutalist-border: 3px solid var(--color-ink-black);
   --brutalist-shadow: 6px 6px 0px var(--color-ink-black);
 
-  --font-roobert: "Madrid", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-raleway: "Madrid", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-system: "Madrid", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-roobert: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-raleway: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-system: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   --fw-light: 300;
   --fw-regular: 400;
@@ -62,6 +62,13 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+/* Disable smooth scroll on mobile for better performance */
+@media (max-width: 768px) {
+  html { scroll-behavior: auto; }
+}
 
 body {
   font-family: var(--font-roobert);
