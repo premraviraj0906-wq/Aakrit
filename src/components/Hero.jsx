@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as THREE from 'three';
@@ -7,7 +7,7 @@ import logoWhite from '../assets/aakrit_logo_white.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Three.js Interactive Dots Background ──────────────────────────────
+// ── Three.js Interactive Full-Page Dots Background ───────────────────
 const ThreeDotsBackground = () => {
   const mountRef = useRef(null);
 
@@ -15,35 +15,35 @@ const ThreeDotsBackground = () => {
     const container = mountRef.current;
     if (!container) return;
 
-    // Dimensions
     let width = container.clientWidth;
     let height = container.clientHeight;
 
-    // Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
-    camera.position.z = 500;
+    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+    camera.position.z = 400;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Grid Setup
-    const cols = 55;
-    const rows = 32;
+    const cols = Math.max(50, Math.ceil(width / 22));
+    const rows = Math.max(32, Math.ceil(height / 22));
     const numPoints = cols * rows;
 
     const positions = new Float32Array(numPoints * 3);
     const colors = new Float32Array(numPoints * 3);
     const initialPositions = new Float32Array(numPoints * 3);
 
-    // Color definitions
     const beige = new THREE.Color('#dad5ab');
     const pink = new THREE.Color('#ffb6c1');
 
-    const xSpacing = 16;
-    const ySpacing = 16;
+    const aspect = width / height;
+    const visibleHeight = 2 * Math.tan((60 * Math.PI / 180) / 2) * 400;
+    const visibleWidth = visibleHeight * aspect;
+
+    const xSpacing = (visibleWidth * 1.25) / cols;
+    const ySpacing = (visibleHeight * 1.25) / rows;
     const xOffset = -((cols - 1) * xSpacing) / 2;
     const yOffset = -((rows - 1) * ySpacing) / 2;
 
@@ -55,7 +55,6 @@ const ThreeDotsBackground = () => {
       const y = yOffset + row * ySpacing;
       const z = 0;
 
-      // Position
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
@@ -64,149 +63,120 @@ const ThreeDotsBackground = () => {
       initialPositions[i * 3 + 1] = y;
       initialPositions[i * 3 + 2] = z;
 
-      // Color
-      colors[i * 3] = beige.r;
-      colors[i * 3 + 1] = beige.g;
-      colors[i * 3 + 2] = beige.b;
+      const mixRatio = (col / cols + row / rows) / 2;
+      const colColor = beige.clone().lerp(pink, mixRatio * 0.45);
+
+      colors[i * 3] = colColor.r;
+      colors[i * 3 + 1] = colColor.g;
+      colors[i * 3 + 2] = colColor.b;
     }
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    // Custom circle texture for soft rounded dots
-    const canvasTexture = (() => {
-      const size = 16;
-      const canvas = document.createElement('canvas');
-      canvas.width = size;
-      canvas.height = size;
-      const ctx = canvas.getContext('2d');
-      const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.8)');
-      grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, size, size);
-      return new THREE.CanvasTexture(canvas);
-    })();
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(32, 32, 26, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+
+    const texture = new THREE.CanvasTexture(canvas);
 
     const material = new THREE.PointsMaterial({
-      size: 3.5,
-      vertexColors: true,
+      size: 4.5,
+      map: texture,
       transparent: true,
-      opacity: 0.28,
-      map: canvasTexture,
+      vertexColors: true,
       depthWrite: false,
-      blending: THREE.NormalBlending
+      opacity: 0.5
     });
 
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
 
-    // Mouse Tracking
-    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-    const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-    const raycaster = new THREE.Raycaster();
+    let mouse = { x: -9999, y: -9999, targetX: -9999, targetY: -9999 };
 
-    const onMouseMove = (event) => {
+    const handleMouseMove = (e) => {
       const rect = container.getBoundingClientRect();
-      const clientX = event.clientX - rect.left;
-      const clientY = event.clientY - rect.top;
-      
+      const clientX = e.clientX - rect.left;
+      const clientY = e.clientY - rect.top;
       mouse.targetX = (clientX / width) * 2 - 1;
       mouse.targetY = -(clientY / height) * 2 + 1;
     };
 
-    container.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
 
-    // Animation Loop Variables
     let animationFrameId;
-    const tempPos = new THREE.Vector3();
-    const tempOrigin = new THREE.Vector3();
-    const forceDirection = new THREE.Vector2();
+    let clock = new THREE.Clock();
 
-    const tick = () => {
-      // Smooth mouse transition
-      mouse.x += (mouse.targetX - mouse.x) * 0.1;
-      mouse.y += (mouse.targetY - mouse.y) * 0.1;
+    const animate = () => {
+      animationFrameId = requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
 
-      // Project mouse coordinates to the Z=0 plane
-      raycaster.setFromCamera(new THREE.Vector2(mouse.x, mouse.y), camera);
-      const intersectionPoint = new THREE.Vector3();
-      raycaster.ray.intersectPlane(plane, intersectionPoint);
+      mouse.x += (mouse.targetX - mouse.x) * 0.08;
+      mouse.y += (mouse.targetY - mouse.y) * 0.08;
 
-      const positionsAttr = geometry.attributes.position;
-      const colorsAttr = geometry.attributes.color;
+      const posAttr = geometry.attributes.position;
+      const posArray = posAttr.array;
 
-      const repelRadius = 110;
-      const repelStrength = 42;
+      const mouseWorldX = mouse.x * (visibleWidth / 2);
+      const mouseWorldY = mouse.y * (visibleHeight / 2);
 
       for (let i = 0; i < numPoints; i++) {
         const idx = i * 3;
+        const ix = initialPositions[idx];
+        const iy = initialPositions[idx + 1];
 
-        tempPos.set(positionsAttr.array[idx], positionsAttr.array[idx + 1], positionsAttr.array[idx + 2]);
-        tempOrigin.set(initialPositions[idx], initialPositions[idx + 1], initialPositions[idx + 2]);
+        const waveZ = Math.sin(time * 1.5 + ix * 0.01 + iy * 0.01) * 14;
 
-        const dx = tempPos.x - intersectionPoint.x;
-        const dy = tempPos.y - intersectionPoint.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const dx = ix - mouseWorldX;
+        const dy = iy - mouseWorldY;
+        const distSq = dx * dx + dy * dy;
+        const radiusSq = 140 * 140;
 
-        if (dist < repelRadius) {
-          const force = (repelRadius - dist) / repelRadius;
-          forceDirection.set(dx, dy).normalize();
-          
-          // Repel force
-          tempPos.x += forceDirection.x * force * repelStrength * 0.15;
-          tempPos.y += forceDirection.y * force * repelStrength * 0.15;
+        let pushX = 0;
+        let pushY = 0;
 
-          // Interpolate to pink near cursor
-          const colorFactor = force; // 0 to 1
-          colorsAttr.array[idx] = THREE.MathUtils.lerp(beige.r, pink.r, colorFactor);
-          colorsAttr.array[idx + 1] = THREE.MathUtils.lerp(beige.g, pink.g, colorFactor);
-          colorsAttr.array[idx + 2] = THREE.MathUtils.lerp(beige.b, pink.b, colorFactor);
-        } else {
-          // Normal beige color
-          colorsAttr.array[idx] = beige.r;
-          colorsAttr.array[idx + 1] = beige.g;
-          colorsAttr.array[idx + 2] = beige.b;
+        if (distSq < radiusSq && mouse.x !== -9999) {
+          const dist = Math.sqrt(distSq);
+          const force = (1 - dist / 140) * 40;
+          const angle = Math.atan2(dy, dx);
+          pushX = Math.cos(angle) * force;
+          pushY = Math.sin(angle) * force;
         }
 
-        // Spring back to home coordinates
-        tempPos.x += (tempOrigin.x - tempPos.x) * 0.08;
-        tempPos.y += (tempOrigin.y - tempPos.y) * 0.08;
-
-        positionsAttr.array[idx] = tempPos.x;
-        positionsAttr.array[idx + 1] = tempPos.y;
+        posArray[idx] = ix + pushX;
+        posArray[idx + 1] = iy + pushY;
+        posArray[idx + 2] = waveZ;
       }
 
-      positionsAttr.needsUpdate = true;
-      colorsAttr.needsUpdate = true;
-
+      posAttr.needsUpdate = true;
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(tick);
     };
 
-    tick();
+    animate();
 
-    // Resize Handler
     const handleResize = () => {
+      if (!container) return;
       width = container.clientWidth;
       height = container.clientHeight;
-
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-
       renderer.setSize(width, height);
     };
 
     window.addEventListener('resize', handleResize);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      container.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
-      if (renderer.domElement.parentNode) {
-        renderer.domElement.parentNode.removeChild(renderer.domElement);
+      cancelAnimationFrame(animationFrameId);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
       renderer.dispose();
       geometry.dispose();
@@ -217,10 +187,12 @@ const ThreeDotsBackground = () => {
   return <div ref={mountRef} className="hero-three-bg" />;
 };
 
+// ── Ultra-Minimal Sleek Hero Component ─────────────────────────────
 const Hero = ({ onOpenEstimator }) => {
   const containerRef = useRef(null);
   const logoRef = useRef(null);
-  const stickersRef = useRef([]);
+  const descRef = useRef(null);
+  const specsRef = useRef(null);
   const glowRef = useRef(null);
 
   const handleMouseMove = useCallback((e) => {
@@ -228,7 +200,7 @@ const Hero = ({ onOpenEstimator }) => {
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    glowRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,182,193,0.12), transparent 60%)`;
+    glowRef.current.style.background = `radial-gradient(650px circle at ${x}px ${y}px, rgba(255,182,193,0.1), transparent 65%)`;
   }, []);
 
   useEffect(() => {
@@ -237,94 +209,63 @@ const Hero = ({ onOpenEstimator }) => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=250%", 
-          scrub: 1.5, 
-          pin: true,
-          anticipatePin: 1
+          end: "+=120%",
+          scrub: 1
         }
       });
 
-      // Logo scales down and rotates slightly
-      tl.to(logoRef.current, { 
-        scale: 0.35, 
-        y: "-15vh", 
-        rotation: -4,
-        ease: "power2.inOut" 
-      }, 0);
+      tl.to(logoRef.current, { scale: 0.92, opacity: 0.9, ease: "power1.out" }, 0);
+      tl.fromTo(descRef.current, { y: 25, opacity: 0.85 }, { y: 0, opacity: 1, ease: "power1.out" }, 0.1);
+      tl.fromTo(specsRef.current, { y: 30, opacity: 0.8 }, { y: 0, opacity: 1, ease: "power1.out" }, 0.2);
 
-      const isMobile = window.innerWidth < 768;
-      const scaleFactor = isMobile ? 0.45 : 1;
-
-      // Stickers scatter out from the center
-      stickersRef.current.forEach((sticker, i) => {
-        const xMatch = sticker.dataset.x.match(/(-?\d+)(vw|vh|px)/);
-        const yMatch = sticker.dataset.y.match(/(-?\d+)(vw|vh|px)/);
-        
-        let targetX = sticker.dataset.x;
-        let targetY = sticker.dataset.y;
-        
-        if (xMatch) {
-          targetX = `${parseFloat(xMatch[1]) * scaleFactor}${xMatch[2]}`;
-        }
-        if (yMatch) {
-          targetY = `${parseFloat(yMatch[1]) * scaleFactor}${yMatch[2]}`;
-        }
-        const targetRot = sticker.dataset.rot;
-        
-        tl.fromTo(sticker, 
-          { x: 0, y: 0, scale: 0, rotation: Math.random() * 90 - 45, opacity: 0 },
-          { 
-            x: targetX, 
-            y: targetY, 
-            scale: isMobile ? 0.75 : 1, 
-            rotation: targetRot, 
-            opacity: 1, 
-            duration: 1, 
-            ease: "back.out(1.2)" 
-          }, 0.1 + (i * 0.08));
-      });
-      
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  const addToRefs = (el) => {
-    if (el && !stickersRef.current.includes(el)) {
-      stickersRef.current.push(el);
-    }
-  };
-
   return (
-    <section className="hero-scatter-wrapper" ref={containerRef} id="home" onMouseMove={handleMouseMove}>
-      {/* Three.js Interactive Particle Background */}
+    <section className="hero-minimal-wrapper" ref={containerRef} id="home" onMouseMove={handleMouseMove}>
+      {/* Full-Page Three.js Interactive Particles */}
       <ThreeDotsBackground />
-      
-      {/* Mouse-tracking grid glow */}
+
+      {/* Ambient Mouse Glow */}
       <div className="hero-grid-glow" ref={glowRef}></div>
-      
-      <div className="hero-logo-wrapper">
-          <img src={logoWhite} alt="Aakrit Logo" className="hero-huge-logo" ref={logoRef} />
-      </div>
-      
-      <div className="scatter-container">
-        {/* Typographic Stickers */}
-        <div className="sticker sticker-title-pink" ref={addToRefs} data-x="-25vw" data-y="-25vh" data-rot="-12">
-          BRAND SCALING
+
+      <div className="hero-minimal-container">
+        {/* Prominent Center Logo Branding */}
+        <div className="hero-logo-single" ref={logoRef}>
+          <img src={logoWhite} alt="Aakrit Logo" className="hero-logo-img" />
         </div>
-        <div className="sticker sticker-title-beige" ref={addToRefs} data-x="28vw" data-y="-15vh" data-rot="8">
-          &amp; DIGITAL SUITE
+
+        {/* Streamlined Action CTAs */}
+        <div className="hero-minimal-actions" ref={descRef}>
+          <div className="minimal-cta-row">
+            <button className="minimal-btn-primary" onClick={onOpenEstimator}>
+              <span>Launch Estimator</span>
+              <span className="minimal-arrow">→</span>
+            </button>
+
+            <a href="#work" className="minimal-link-secondary">
+              <span>Explore Work</span>
+            </a>
+          </div>
         </div>
-        
-        {/* Geometric Stat Stickers */}
-        <div className="sticker sticker-shape sticker-green-circle" ref={addToRefs} data-x="-32vw" data-y="18vh" data-rot="15">
-          <span className="stat-num">3<span className="stat-plus">+</span></span>
-          <span className="stat-desc">DAYS</span>
-        </div>
-        
-        <div className="sticker sticker-shape sticker-pink-pill" ref={addToRefs} data-x="30vw" data-y="25vh" data-rot="-6">
-          <span className="stat-num">₹9999</span>
-          <span className="stat-desc">STARTING RATE</span>
+
+        {/* Individual Metric Pill Badges */}
+        <div className="hero-minimal-specs" ref={specsRef}>
+          <div className="spec-item">
+            <span className="spec-dot"></span>
+            <span className="spec-text">3+ Days Delivery</span>
+          </div>
+          <div className="spec-item">
+            <span className="spec-text">100% Bespoke Code</span>
+          </div>
+          <div className="spec-item">
+            <span className="spec-text">From ₹9,999</span>
+          </div>
+          <div className="spec-item">
+            <span className="spec-text">60 FPS Motion</span>
+          </div>
         </div>
       </div>
     </section>

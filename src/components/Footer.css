@@ -15,7 +15,7 @@
 .footer-body-area {
   position: relative;
   overflow: hidden;
-  min-height: 380px;
+  min-height: clamp(320px, 35vh, 480px);
 }
 
 .footer-particle-canvas {
@@ -32,8 +32,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70%;
-  max-width: 900px;
+  width: clamp(60%, 50vw, 900px);
+  max-width: 1100px;
   height: auto;
   object-fit: contain;
   pointer-events: none;
@@ -47,7 +47,7 @@
   position: relative;
   width: 100%;
   background: #ffb6c1;
-  padding: 32px 0;
+  padding: clamp(20px, 2.5vw, 40px) 0;
   cursor: pointer;
   overflow: hidden;
   border-top: 4px solid #17433f;
@@ -63,18 +63,18 @@
 
 .footer-marquee-item {
   font-family: var(--font-roobert, sans-serif);
-  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-size: clamp(2rem, 4.5vw, 4.5rem);
   font-weight: 900;
   color: #4b1426;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   display: flex;
   align-items: center;
-  padding-right: 48px;
+  padding-right: clamp(32px, 3.5vw, 64px);
 }
 
 .fm-star {
-  margin: 0 20px;
+  margin: 0 clamp(12px, 1.5vw, 24px);
   color: #17433f;
 }
 
@@ -92,7 +92,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-roobert, sans-serif);
-  font-size: clamp(2.5rem, 4vw, 4.5rem);
+  font-size: clamp(2rem, 4.5vw, 5rem);
   font-weight: 900;
   color: #dad5ab;
   text-transform: uppercase;
@@ -114,7 +114,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0;
-  padding: 80px 5vw;
+  padding: clamp(48px, 6vw, 100px) clamp(16px, 5vw, 80px);
   max-width: var(--page-max, 1600px);
   margin: 0 auto;
   width: 100%;
@@ -126,20 +126,20 @@
 .footer-logo-col {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  padding-right: 60px;
+  gap: clamp(20px, 2vw, 36px);
+  padding-right: clamp(24px, 4vw, 60px);
   border-right: 1px solid rgba(218, 213, 171, 0.1);
 }
 
 .footer-logo-img {
-  width: 140px;
+  width: clamp(100px, 10vw, 160px);
   height: auto;
   opacity: 0.9;
 }
 
 .footer-base-tag {
   font-family: var(--font-roobert, sans-serif);
-  font-size: 11px;
+  font-size: clamp(10px, 0.8vw, 13px);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -154,8 +154,8 @@
 .footer-contact-col {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 0 60px;
+  gap: clamp(14px, 1.5vw, 24px);
+  padding: 0 clamp(24px, 4vw, 60px);
   border-right: 1px solid rgba(218, 213, 171, 0.1);
 }
 
@@ -165,7 +165,7 @@
 
 .footer-col-head {
   font-family: var(--font-roobert, sans-serif);
-  font-size: 11px;
+  font-size: clamp(10px, 0.8vw, 13px);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -177,7 +177,7 @@
 
 .footer-link {
   font-family: var(--font-roobert, sans-serif);
-  font-size: 18px;
+  font-size: clamp(15px, 1.3vw, 20px);
   font-weight: 600;
   color: #dad5ab;
   text-decoration: none;
@@ -195,10 +195,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 5vw;
+  padding: clamp(16px, 2vw, 28px) clamp(16px, 5vw, 80px);
   background: #17433f;
   font-family: var(--font-roobert, sans-serif);
-  font-size: 12px;
+  font-size: clamp(10px, 0.8vw, 13px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -209,7 +209,8 @@
 @media (max-width: 900px) {
   .footer-grid-area {
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 40px;
+    padding: 60px 5vw;
   }
   .footer-logo-col {
     grid-column: 1 / -1;
@@ -217,8 +218,9 @@
     padding-right: 0;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid rgba(218, 213, 171, 0.1);
-    padding-bottom: 40px;
+    padding-bottom: 32px;
   }
   .footer-nav-col { border-right: none; padding: 0; }
   .footer-contact-col { padding: 0; }
@@ -227,14 +229,18 @@
 @media (max-width: 560px) {
   .footer-grid-area {
     grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 44px 5vw;
   }
   .footer-logo-col {
     flex-direction: column;
     align-items: flex-start;
+    gap: 16px;
   }
   .footer-strip {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     text-align: center;
+    padding: 20px 5vw;
   }
 }

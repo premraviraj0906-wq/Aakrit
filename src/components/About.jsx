@@ -11,6 +11,7 @@ const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 768;
       
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -23,21 +24,20 @@ const About = () => {
         }
       });
 
-      // 1. Scale the entire mask container infinitely into the 'O'
-      // The 'O' is the first letter of "ORIGINS". 
-      // We set transformOrigin so it zooms perfectly into the center of the O.
+      // 1. Scale the mask container into the 'R' and fade out completely
       tl.to('.about-mask-overlay', {
-        scale: 150,
-        transformOrigin: "31% 50%", // Approximate center of the 'O' in "ORIGINS"
+        scale: isMobile ? 350 : 180,
+        opacity: 0,
+        transformOrigin: isMobile ? "33% 50%" : "41% 50%",
         ease: "power2.inOut",
         duration: 1
       }, 0);
 
-      // 2. Fade in the actual content once we are zoomed in
+      // 2. Fade in the actual content once zoomed in
       tl.fromTo(contentRef.current, 
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 0.4, ease: "power1.out" },
-        0.6 // Start fading in when the zoom is 60% done
+        0.5 // Start fading in when the zoom is 50% done
       );
       
     }, sectionRef);
@@ -66,8 +66,12 @@ const About = () => {
               Aakrit was born to bridge this gap. We turn designs into pixel-perfect, custom-engineered code. Using React, Vite, and Framer Motion, we build blazing-fast web interfaces and smooth micro-animations that load in milliseconds. We handle the full technical pipeline: from advanced technical SEO to CDN hosting and analytics setup.
             </p>
             <div className="editorial-highlight">
-              <span>ZERO TEMPLATES.</span>
-              <span>PURE CODE.</span>
+              <span>Zero Templates</span>
+              <span>Pure Code</span>
+              <span>React &amp; Vite</span>
+              <span>GSAP Motion</span>
+              <span>Technical SEO</span>
+              <span>Fast Delivery</span>
             </div>
           </div>
 
@@ -86,7 +90,7 @@ const About = () => {
                 y="50%" 
                 dominantBaseline="middle" 
                 textAnchor="middle" 
-                fontSize="18vw" 
+                fontSize="14vw" 
                 fontWeight="900" 
                 fontFamily="var(--font-roobert, sans-serif)"
                 letterSpacing="-0.04em"

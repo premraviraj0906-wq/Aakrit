@@ -1,12 +1,13 @@
 /* 
- * Kinetic Scatter & Float Hero
+ * Ultra-Minimal Sleek Hero Section
  * Palette: Maroon (#4b1426), Pink (#ffb6c1), Beige (#dad5ab), Green (#17433f)
  */
 
-.hero-scatter-wrapper {
+.hero-minimal-wrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  padding: clamp(100px, 12vh, 150px) 0 clamp(40px, 6vh, 80px);
   background-color: #4b1426;
   overflow: hidden;
   display: flex;
@@ -14,26 +15,23 @@
   justify-content: center;
 }
 
-/* Three.js background layer */
 .hero-three-bg {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
   pointer-events: auto;
 }
 
-/* Soft radial vignette so edges feel deeper */
-.hero-scatter-wrapper::after {
+.hero-minimal-wrapper::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   background: radial-gradient(
-    ellipse 80% 70% at 50% 50%,
+    ellipse 85% 75% at 50% 50%,
     transparent 40%,
-    rgba(20, 5, 12, 0.55) 100%
+    rgba(20, 5, 12, 0.6) 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -41,238 +39,238 @@
 
 .hero-grid-glow {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   pointer-events: none;
-  z-index: 2; /* Above the vignette, below content */
+  z-index: 2;
   transition: background 0.08s ease-out;
 }
 
-/* Logo */
-.hero-logo-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 1200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
+.hero-minimal-container {
+  position: relative;
   z-index: 10;
-}
-
-.hero-huge-logo {
   width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 0 60px rgba(255, 182, 193, 0.15));
-  transform-origin: center center;
-  will-change: transform;
-}
-
-/* Scatter Container */
-.scatter-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 20;
-}
-
-/* Base Sticker Styles */
-.sticker {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(-50%, -50%);
-  will-change: transform, opacity;
-  pointer-events: auto;
+  max-width: var(--page-max, 1600px);
+  padding: 0 clamp(20px, 5vw, 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  white-space: nowrap;
-  opacity: 0; /* Ensures they are hidden before GSAP kicks in */
+  gap: clamp(28px, 4.5vh, 60px);
+  margin: 0 auto;
 }
 
-/* Typography Stickers */
-.sticker-title-pink {
+/* Logo (Centered Branding) */
+.hero-logo-single {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-logo-img {
+  width: clamp(300px, 54vw, 850px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 60px rgba(255, 182, 193, 0.3));
+}
+
+/* Editorial & Actions */
+.hero-minimal-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 1.8vh, 22px);
+  max-width: clamp(280px, 38vw, 480px);
+  width: 100%;
+}
+
+.minimal-desc {
   font-family: var(--font-roobert, sans-serif);
-  font-size: clamp(3rem, 6vw, 7rem);
-  font-weight: 900;
-  color: #ffb6c1;
-  letter-spacing: -0.04em;
-  text-shadow: 4px 4px 0 #17433f;
-  -webkit-text-stroke: 2px #4b1426;
-}
-
-.sticker-title-beige {
-  font-family: var(--font-roobert, sans-serif);
-  font-size: clamp(2.5rem, 5vw, 6rem);
-  font-weight: 900;
-  color: #dad5ab;
-  letter-spacing: -0.04em;
-  text-shadow: 4px 4px 0 #4b1426;
-}
-
-/* Geometric Stat Stickers */
-.sticker-shape {
-  border: 4px solid #4b1426;
-  box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
-  background: #fff;
-}
-
-.sticker-green-circle {
-  background: #17433f;
-  color: #dad5ab;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-}
-
-.sticker-pink-pill {
-  background: #ffb6c1;
-  color: #4b1426;
-  padding: 30px 50px;
-  border-radius: 100px;
-}
-
-.stat-num {
-  font-family: var(--font-roobert, sans-serif);
-  font-size: 3rem;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.stat-plus {
-  color: #ffb6c1;
-  font-size: 0.8em;
-}
-.sticker-green-circle .stat-plus {
-  color: #ffb6c1;
-}
-
-.stat-desc {
-  font-family: var(--font-roobert, sans-serif);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  margin-top: 8px;
-}
-
-/* Text and CTA Block */
-.sticker-text-block {
-  max-width: 400px;
-  white-space: normal;
-}
-
-.sticker-text-block p {
-  font-family: var(--font-roobert, sans-serif);
-  font-size: 18px;
+  font-size: clamp(12px, 0.9vw, 14.5px);
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 24px;
-  font-weight: 500;
+  font-weight: 400;
+  color: rgba(218, 213, 171, 0.88);
+  margin: 0;
 }
 
-.scatter-cta {
+.minimal-cta-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.5vw, 24px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.minimal-btn-primary {
   all: unset;
   cursor: pointer;
-  background: #dad5ab;
+  background: #ffb6c1;
   color: #4b1426;
   font-family: var(--font-roobert, sans-serif);
-  font-size: 14px;
+  font-size: clamp(10px, 0.75vw, 12px);
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 16px 32px;
-  border: 2px solid #4b1426;
-  box-shadow: 6px 6px 0 #17433f;
-  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 10px 22px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 5px 16px rgba(255, 182, 193, 0.2);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.25s, box-shadow 0.25s;
 }
 
-.scatter-cta:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 10px 10px 0 #17433f;
+.minimal-btn-primary:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(255, 182, 193, 0.35);
 }
 
-/* Scroll Indicator */
-.hero-scroll-indicator {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
+.minimal-arrow {
+  transition: transform 0.2s;
 }
 
-.mouse {
-  width: 26px;
-  height: 40px;
-  border: 2px solid rgba(218, 213, 171, 0.5);
-  border-radius: 20px;
-  position: relative;
+.minimal-btn-primary:hover .minimal-arrow {
+  transform: translateX(3px);
 }
 
-.mouse::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  background-color: #ffb6c1;
+.minimal-link-secondary {
+  font-family: var(--font-roobert, sans-serif);
+  font-size: clamp(10px, 0.75vw, 12px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #dad5ab;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(218, 213, 171, 0.4);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.minimal-link-secondary:hover {
+  color: #ffb6c1;
+  border-color: #ffb6c1;
+}
+
+/* Minimal Spec Pills — individual per metric */
+.hero-minimal-specs {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 14px);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: clamp(6px, 1vh, 14px);
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: rgba(23, 67, 63, 0.45);
+  border: 1px solid rgba(218, 213, 171, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 50px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.spec-item:hover {
+  background: rgba(23, 67, 63, 0.7);
+  border-color: rgba(255, 182, 193, 0.35);
+}
+
+.spec-dot {
+  width: 5px;
+  height: 5px;
+  background: #00e676;
   border-radius: 50%;
-  animation: scroll-wheel 1.5s infinite;
+  box-shadow: 0 0 5px #00e676;
+  flex-shrink: 0;
 }
 
-@keyframes scroll-wheel {
-  0% { top: 8px; opacity: 1; }
-  100% { top: 24px; opacity: 0; }
+.spec-text {
+  font-family: var(--font-roobert, sans-serif);
+  font-size: clamp(9px, 0.65vw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #dad5ab;
+  white-space: nowrap;
 }
 
-@media (max-width: 900px) {
-  .sticker-green-circle {
-    width: 150px;
-    height: 150px;
-  }
-  .stat-num { font-size: 2rem; }
-  
-  .sticker-text-block {
-    width: 80vw;
-  }
+.spec-divider {
+  display: none;
 }
 
+/* Responsive Mobile Scaling */
 @media (max-width: 600px) {
-  .sticker-title-pink {
-    font-size: clamp(1.8rem, 8vw, 3rem);
-    text-shadow: 2px 2px 0 #17433f;
-    -webkit-text-stroke: 1px #4b1426;
+  .hero-minimal-wrapper {
+    padding: clamp(110px, 18vh, 160px) 0 40px;
+    min-height: 100vh;
+    align-items: flex-start;
+    padding-top: clamp(130px, 20vh, 180px);
   }
-  .sticker-title-beige {
-    font-size: clamp(1.6rem, 7vw, 2.5rem);
-    text-shadow: 2px 2px 0 #4b1426;
+
+  .hero-minimal-container {
+    padding: 0 18px;
+    gap: 16px;
   }
-  .sticker-green-circle {
-    width: 110px;
-    height: 110px;
-    border-width: 2px;
+
+  /* Bigger logo on mobile */
+  .hero-logo-img {
+    width: clamp(240px, 82vw, 340px);
   }
-  .sticker-pink-pill {
-    padding: 12px 24px;
-    border-width: 2px;
-    border-radius: 50px;
+
+  /* Smaller CTA row */
+  .hero-minimal-actions {
+    gap: 12px;
   }
-  .stat-num {
-    font-size: 1.6rem;
+
+  .minimal-cta-row {
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
-  .stat-desc {
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    margin-top: 2px;
+
+  .minimal-btn-primary {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
+    padding: 9px 20px;
+    font-size: 10px;
+    box-sizing: border-box;
   }
-  .hero-huge-logo {
-    max-width: 80%;
+
+  .minimal-link-secondary {
+    font-size: 10px;
+  }
+
+  /* Smaller individual spec pills in 2x2 grid */
+  .hero-minimal-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 8px;
+    width: 100%;
+    max-width: 280px;
+    box-sizing: border-box;
+    margin-top: 4px;
+  }
+
+  .spec-item {
+    padding: 5px 12px;
+    gap: 5px;
+  }
+
+  .spec-dot {
+    width: 4px;
+    height: 4px;
+  }
+
+  .spec-text {
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
   }
 }

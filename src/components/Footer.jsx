@@ -20,110 +20,6 @@ const contactLinks = [
   { label: '@aakrit.web', href: 'https://www.instagram.com/aakrit.web?igsi=MTBkbnhheGxnMWw2YQ==' },
 ];
 
-// ── Interactive Particle Canvas ──────────────────────────────────────
-const ParticleCanvas = () => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    let animId;
-    let mouse = { x: -9999, y: -9999 };
-
-    const COLS = 48;
-    const ROWS = 20;
-    let dots = [];
-
-    const resize = () => {
-      canvas.width  = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      buildDots();
-    };
-
-    const buildDots = () => {
-      dots = [];
-      const colGap = canvas.width  / (COLS + 1);
-      const rowGap = canvas.height / (ROWS + 1);
-      for (let r = 1; r <= ROWS; r++) {
-        for (let c = 1; c <= COLS; c++) {
-          dots.push({
-            ox: colGap * c,
-            oy: rowGap * r,
-            x: colGap * c,
-            y: rowGap * r,
-            r: 1.5,
-            // Edge zones: outer 28% of width or outer 28% of height
-            isEdge: (c / COLS < 0.28) || (c / COLS > 0.72) ||
-                    (r / ROWS < 0.28) || (r / ROWS > 0.72)
-          });
-        }
-      }
-    };
-
-    const onMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-
-    const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
-
-    const REPEL = 110;
-    const STRENGTH = 60;
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      dots.forEach(d => {
-        const dx = d.x - mouse.x;
-        const dy = d.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        // Only edge dots react to mouse
-        if (d.isEdge && dist < REPEL) {
-          const force = (REPEL - dist) / REPEL;
-          d.x += (dx / dist) * force * STRENGTH * 0.14;
-          d.y += (dy / dist) * force * STRENGTH * 0.14;
-        }
-
-        // Spring back to origin
-        d.x += (d.ox - d.x) * 0.1;
-        d.y += (d.oy - d.y) * 0.1;
-
-        const glow = (d.isEdge && dist < REPEL) ? (1 - dist / REPEL) : 0;
-        const alpha = 0.15 + glow * 0.7;
-        const radius = d.r + glow * 3;
-
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = glow > 0.15
-          ? `rgba(255,182,193,${alpha})`
-          : `rgba(218,213,171,${alpha})`;
-        ctx.fill();
-      });
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    resize();
-    draw();
-
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-    canvas.addEventListener('mousemove', onMove);
-    canvas.addEventListener('mouseleave', onLeave);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      ro.disconnect();
-      canvas.removeEventListener('mousemove', onMove);
-      canvas.removeEventListener('mouseleave', onLeave);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="footer-particle-canvas" />;
-};
-
 // ── Footer Component ──────────────────────────────────────────────────
 const Footer = ({ onOpenEstimator }) => {
   const footerRef = useRef(null);
@@ -143,10 +39,8 @@ const Footer = ({ onOpenEstimator }) => {
         <div className="footer-marquee-hover">INITIATE SEQUENCE →</div>
       </div>
 
-      {/* Body — particles + grid */}
+      {/* Body — grid area */}
       <div className="footer-body-area">
-        <ParticleCanvas />
-
         {/* Background logo image at low opacity */}
         <img src={logoWhite} alt="" className="footer-bg-logo" aria-hidden="true" />
 

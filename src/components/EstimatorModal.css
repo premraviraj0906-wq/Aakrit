@@ -58,7 +58,7 @@
 /* ── Split Layout ── */
 .spec-layout {
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: clamp(280px, 32vw, 420px) 1fr;
   min-height: 80vh;
   max-height: 90vh;
   overflow: hidden;
@@ -69,7 +69,7 @@
   background: #17433f;
   color: #dad5ab;
   border-right: 4px solid #4b1426;
-  padding: 40px;
+  padding: clamp(20px, 3vw, 40px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -189,7 +189,7 @@
 
 /* ── Right Column: Configurator ── */
 .spec-config-col {
-  padding: 40px;
+  padding: clamp(20px, 3vw, 40px);
   overflow-y: auto;
   max-height: 90vh;
 }
