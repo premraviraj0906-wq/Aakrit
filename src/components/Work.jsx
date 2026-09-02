@@ -8,11 +8,11 @@ gsap.registerPlugin(ScrollTrigger);
 const projects = [
   {
     id: '01',
-    name: 'aakrit interactive showcase',
-    type: 'Interactive Story & 3D Tunnel',
-    url: 'https://aakrit-demo.vercel.app/',
-    year: '2026',
-    tags: ['3D Depth Tunnel', 'Canvas Motion', 'Storytelling'],
+    name: 'kalapremi productions',
+    type: 'Production Studio Website',
+    url: 'https://kalapremiproductions.com',
+    year: '2024',
+    tags: ['Branding', 'Web', 'CMS'],
     theme: 'pink'
   },
   {
@@ -26,12 +26,12 @@ const projects = [
   },
   {
     id: '03',
-    name: 'kalapremi productions',
-    type: 'Production Studio Website',
-    url: 'https://kalapremiproductions.com',
-    year: '2024',
-    tags: ['Branding', 'Web', 'CMS'],
-    theme: 'beige'
+    name: 'aakrit interactive showcase',
+    type: 'Interactive Story & 3D Tunnel',
+    url: 'https://aakrit-demo.vercel.app/',
+    year: '2026',
+    tags: ['3D Depth Tunnel', 'Canvas Motion', 'Storytelling'],
+    theme: 'pink'
   },
   {
     id: '04',
@@ -49,7 +49,7 @@ const projects = [
     url: 'https://pitwall.rprem.online',
     year: '2024',
     tags: ['Dashboard', 'Data Viz', 'API'],
-    theme: 'maroon'
+    theme: 'beige'
   }
 ];
 
