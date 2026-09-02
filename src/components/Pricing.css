@@ -215,12 +215,58 @@
   text-transform: uppercase;
   display: block;
   margin-bottom: 4px;
+  opacity: 0.6;
+}
+
+.was-price-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .text-was {
   font-size: 20px;
   font-weight: 700;
-  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.scratch-svg {
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  width: calc(100% + 16px);
+  height: 28px;
+  transform: translateY(-50%) rotate(-3deg);
+  pointer-events: none;
+  overflow: visible;
+  z-index: 2;
+}
+
+.scratch-path {
+  stroke: var(--scratch-color, #ff3b30);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 250;
+  stroke-dashoffset: 250;
+  animation: scratch-draw 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.scratch-path-1 {
+  animation-delay: 0.35s;
+}
+
+.scratch-path-2 {
+  stroke-width: 2.2;
+  opacity: 0.85;
+  animation-delay: 0.48s;
+}
+
+@keyframes scratch-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .text-price {

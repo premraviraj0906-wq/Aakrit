@@ -241,6 +241,10 @@ const Hero = ({ onOpenEstimator }) => {
               <span className="minimal-arrow">→</span>
             </button>
 
+            <a href="https://aakrit-demo.vercel.app/" target="_blank" rel="noopener noreferrer" className="minimal-link-secondary">
+              <span>Live Showcase Demo ↗</span>
+            </a>
+
             <a href="#work" className="minimal-link-secondary">
               <span>Explore Work</span>
             </a>

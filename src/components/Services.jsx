@@ -37,6 +37,14 @@ const services = [
     tags: ['Logo suites', 'Promo Videos', 'Photography', 'Scale Strategy'],
     themeColor: '#dad5ab', 
     textColor: '#4b1426'
+  },
+  {
+    id: '05',
+    title: 'Event & Story Sites',
+    desc: 'Bespoke interactive celebration experiences for birthdays, weddings, anniversaries with 3D depth tunnels, particle canvas, audio players & gift triggers.',
+    tags: ['3D Canvas', 'RSVP Forms', 'Audio Player', 'Confetti & Gifts'],
+    themeColor: '#ffb6c1', 
+    textColor: '#4b1426'
   }
 ];
 

@@ -8,6 +8,15 @@ gsap.registerPlugin(ScrollTrigger);
 const projects = [
   {
     id: '01',
+    name: 'aakrit interactive showcase',
+    type: 'Interactive Story & 3D Tunnel',
+    url: 'https://aakrit-demo.vercel.app/',
+    year: '2026',
+    tags: ['3D Depth Tunnel', 'Canvas Motion', 'Storytelling'],
+    theme: 'pink'
+  },
+  {
+    id: '02',
     name: 'rprem.online',
     type: 'Personal Portfolio',
     url: 'https://rprem.online',
@@ -16,16 +25,16 @@ const projects = [
     theme: 'maroon'
   },
   {
-    id: '02',
+    id: '03',
     name: 'kalapremi productions',
     type: 'Production Studio Website',
     url: 'https://kalapremiproductions.com',
     year: '2024',
     tags: ['Branding', 'Web', 'CMS'],
-    theme: 'pink'
+    theme: 'beige'
   },
   {
-    id: '03',
+    id: '04',
     name: 'unity power solutions',
     type: 'UPS Business Platform',
     url: 'https://unitypowersolutions.co.in',
@@ -34,13 +43,13 @@ const projects = [
     theme: 'green'
   },
   {
-    id: '04',
+    id: '05',
     name: 'pitwall',
     type: 'F1 Analytics Dashboard',
     url: 'https://pitwall.rprem.online',
     year: '2024',
     tags: ['Dashboard', 'Data Viz', 'API'],
-    theme: 'beige'
+    theme: 'maroon'
   }
 ];
 

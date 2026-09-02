@@ -25,8 +25,25 @@ const plans = [
     bg: '#4b1426', text: '#dad5ab', accent: '#ffb6c1'
   },
   {
-    id: 'GROWTH',
+    id: 'EVENTS',
     num: '02',
+    tagline: 'BIRTHDAYS, WEDDINGS & CELEBRATIONS',
+    price: '₹7,999',
+    was: '₹12,999',
+    limit: 'INTERACTIVE STORY',
+    features: [
+      '3D SCROLL DEPTH TUNNEL',
+      'CANVAS PARTICLES & ANIMATIONS',
+      'COUNTDOWN TIMER & 3D GIFT BOX',
+      'MUSIC PLAYER & EQUALIZER CONTROLS',
+      'PHOTO GALLERY & MEMORY TIMELINE',
+      'INTERACTIVE RSVP / WISHES FORM'
+    ],
+    bg: '#ffb6c1', text: '#4b1426', accent: '#17433f'
+  },
+  {
+    id: 'GROWTH',
+    num: '03',
     tagline: 'GROWING BUSINESSES & BRANDS',
     price: '₹14,999',
     was: '₹24,999',
@@ -39,11 +56,11 @@ const plans = [
       '3 DESIGN FEEDBACK ROUNDS',
       'PRODUCTION DEPLOYMENT'
     ],
-    bg: '#ffb6c1', text: '#4b1426', accent: '#17433f'
+    bg: '#17433f', text: '#dad5ab', accent: '#ffb6c1'
   },
   {
     id: 'SCALE',
-    num: '03',
+    num: '04',
     tagline: 'HIGH-PERFORMANCE PRODUCTS',
     price: '₹29,999',
     was: '₹44,999',
@@ -56,11 +73,11 @@ const plans = [
       '5 FEEDBACK ROUNDS',
       'PRIORITY LAUNCH SUPPORT'
     ],
-    bg: '#17433f', text: '#dad5ab', accent: '#ffb6c1'
+    bg: '#dad5ab', text: '#4b1426', accent: '#17433f'
   },
   {
     id: 'ENTERPRISE',
-    num: '04',
+    num: '05',
     tagline: 'BESPOKE PLATFORMS & E-COM',
     price: '₹49,999+',
     was: '₹69,999',
@@ -73,7 +90,7 @@ const plans = [
       'UNLIMITED DESIGN ROUNDS',
       'COMPREHENSIVE LAUNCH QA'
     ],
-    bg: '#dad5ab', text: '#4b1426', accent: '#17433f'
+    bg: '#4b1426', text: '#ffb6c1', accent: '#dad5ab'
   }
 ];
 
@@ -213,9 +230,15 @@ const Pricing = ({ onOpenEstimator }) => {
         {/* Row 2 — Big price */}
         <div className="board-row board-row-price" style={{ borderColor: `${plan.text}20` }}>
           <div className="board-cell cell-label" style={{ color: plan.accent }}>RATE</div>
-          <div className="board-cell cell-was" style={{ opacity: 0.4 }}>
+          <div className="board-cell cell-was">
             <span className="was-label">WAS</span>
-            <FlipText text={plan.was} className="text-was" baseDelay={0} trigger={flipKey} />
+            <div className="was-price-wrapper" style={{ '--scratch-color': plan.accent }}>
+              <FlipText text={plan.was} className="text-was" baseDelay={0} trigger={flipKey} />
+              <svg key={flipKey} className="scratch-svg" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true">
+                <path className="scratch-path scratch-path-1" d="M 4,18 Q 40,8 116,10" />
+                <path className="scratch-path scratch-path-2" d="M 8,22 Q 60,24 112,14" />
+              </svg>
+            </div>
           </div>
           <div className="board-cell cell-price">
             <FlipText text={plan.price} className="text-price" baseDelay={60} trigger={flipKey} />
